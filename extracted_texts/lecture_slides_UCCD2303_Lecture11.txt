@@ -1,0 +1,584 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Lecture 11
+Data Management and Databases Engines 
+Part 2
+by
+Mr. Cheang Kah Wai
+Department of Information Systems, FICT
+Lecture 11 Topic: Data Management 
+and Databases Engines -Part 2
+◼Emerging Trends of Database Engines
+◼Concept and Characteristics of NoSQL 
+Databases
+◼Data Modelling for NoSQL Databases
+
+Emerging Trends ofDatabase Engines
+◼Three major eras in database
+technology :
+❑Pre-Relational (1950-1972)
+❑Relational (1972-2000)
+❑TheNext Generation (2000 onwards)
+
+Emerging Trends ofDatabase Engines
+◼Pre-Relational (1950 -1972 )
+❑Magnetic Tape
+❑Magnetic Disk
+❑Indexed Sequential Access Method (ISAM)
+❑Hierarchical Model
+❑Information Management System (IMS)
+❑Network Model
+❑Integrated Database Management System (IDMS)
+
+Emerging Trends ofDatabase Engines
+◼Relational (1972-2000)
+❑Codd’s Paper
+❑System R
+❑Oracle
+❑Commerical Ingres
+❑Informix
+❑DB2
+❑Sybase
+❑Postgres
+❑SQL Server
+❑MySQL
+
+Emerging Trends ofDatabase Engines
+◼TheNext Generation (2000 onwards)
+❑MapReduce
+❑Hadoop
+❑Vertica
+❑Dynamo
+❑Cassandra
+❑Hbase
+❑NuoDB
+❑MongoDB
+❑VoltDB
+❑Areospike
+❑Splice Machine
+
+TheFirst Database Revolution
+◼The database was created to try and solve 
+the limitations of traditional paper -based 
+information storage. 
+◼In databases, the files are called records 
+and the individual data elements in a record 
+are called fields.
+❑Example: name, phone number, date of birth
+◼The way these elements are stored has 
+evolved since the early days of databases.
+
+TheFirst Database Revolution
+◼The earliest systems were called the 
+hierarchical and network models. 
+Thehierarchical model organised data in 
+a tree -like structure. 
+❑IBM developed this model in the 1960s.
+◼The hierarchical model represents data as 
+records which are connected with links. 
+Each record has a parent record, starting 
+with the root record. 
+
+TheFirst Database Revolution
+
+TheFirst Database Revolution
+◼Hierarchical model is still used today. 
+❑Used by Microsoft in the Windows Registry and 
+in file systems, and they can have advantages 
+over more modern database models (speed 
+and simplicity). 
+◼Disadvantages of Hierarchical model:
+❑Cannot easily represent relationships between 
+types of data. 
+❑Can be achieved through quite complex 
+methods but the database designer has to be 
+an expert that understands the fundamental 
+workings of these systems.
+
+TheFirst Database Revolution
+◼Advantages of Hierarchical model:
+❑The hierarchical database was a good 
+replacement for paper -based system. 
+❑Records could be accessed almost 
+instantaneously. 
+❑Full backup and recovery mechanism -which 
+means the lost files can be recovered.
+
+TheFirst Database Revolution
+◼In 1969, scientists at the Conference on 
+Data Systems Languages (CODASYL) 
+released network model . 
+❑The next significant innovation in databases. 
+❑It overcame the restrictions of the hierarchical 
+model. 
+◼This model allows relationships, and it has 
+a “schema” (a diagrammatic representation 
+of the relationships).
+
+TheFirst Database Revolution
+
+TheFirst Database Revolution
+◼The main difference between the
+hierarchical model and thenetwork model
+isthat the network model allows each
+record tohave more than one parent and
+child record .
+◼The “Client”, “Supervisor” andother boxes
+represent what indatabase terminology are
+called entities .
+
+TheFirst Database Revolution
+◼The network model allows entities tohave
+relationships, justlikeinreallife.
+❑Intheexample, anorder involves acustomer,
+supervisor andworker —ifaclient walked into
+astore andbought aproduct .
+◼The network model didimprove onthe
+hierarchical model, butitdidnotbecome
+dominant .
+❑IBM continued tousethehierarchical model in
+their more established products (IMS andDL/l)
+❑Researchers came upwith the relational
+model .
+
+TheSecond Database Revolution
+◼The relational model was much easier for
+designers to understand and the
+programming interface wasbetter .
+◼The network andhierarchical models were
+used throughout the 1960 sand 70s
+because they offered better performance .
+
+TheSecond Database Revolution
+
+TheSecond Database Revolution
+◼The mainframe computer systems used in
+the 60sand 70sneeded the fastest
+possible solutions because thehardware
+wasextremely limited .
+◼However, the 1980 ssaw tremendous
+advances incomputing technology andthe
+relational model started tobecome the
+most popular .
+
+TheSecond Database Revolution
+
+TheSecond Database Revolution
+◼The relational model was, like the network 
+model. 
+◼The relational model describes the data in 
+a database as being stored in tables , each 
+containing records with fields. 
+❑Customer: customer id, first name, last name, 
+street address, mobile
+
+TheSecond Database Revolution
+◼The type of data for each field is 
+predetermined 
+❑Example: text, number, date 
+◼These tables can have relationships in a 
+relational database, and different types of 
+relationships exist. 
+❑One-to-One
+❑One-to-Many
+❑Many -to-Many
+
+TheSecond Database Revolution
+◼These allow the designer to show how one 
+table relates to one another.
+❑Allows the database designer to ensure the 
+database will work well when applications 
+access it and helps with troubleshooting 
+problems.
+❑Helps to maintain the integrity of a database. 
+◼For example, if a product has to be associated with a 
+manufacturer to exist in a database, then a rule can 
+exist that only allows the addition of products if they 
+have an associated manufacturer. 
+
+TheSecond Database Revolution
+◼Most relational databases use a standard 
+Structured Query Language (SQL). 
+❑SQL allows an application to gain access to the 
+data needed by a user. 
+❑It can either retrieve all the data from a table (or 
+even a database) or just one individual field, 
+determined by a set of criteria. 
+◼For example, an application may only require the 
+name of a professor associated with a particular 
+course.
+
+TheSecond Database Revolution
+◼The main advantage of the relational model 
+is that it provides consistency in the data.
+◼The model implements a set 
+ofconstraints and these ensure that the 
+database functions as intended. 
+❑developed through studying the environment in 
+which the database operates.
+
+TheSecond Database Revolution
+◼The real -world relationships between the 
+entities have to be determined so that the 
+database functions correctly. 
+❑study the previous paper -based record systems 
+and interviewing employees and suppliers in an 
+organisation .
+❑a strict and thorough requirement analysis 
+before a database can be populated and used. 
+❑ensures that a system will not be able to do 
+anything that would cause errors or incorrectly 
+represent the real -world situation of the data.
+
+TheThird Database Revolution
+◼Before the third revolution, all the 
+databases have used the Structured Query 
+Language (SQL) as the main way to 
+retrieve and store data in a database. 
+◼Around 2000, a new term was coined, 
+namely NoSQL. 
+❑It refers to “not only SQL” databases that use 
+other query languages to store and retrieve 
+data. 
+
+TheThird Database Revolution
+◼These types of databases have existed 
+since the 1960s, but it was the Web 2.0 
+revolution that made them come to the 
+attention of the technology world.
+◼Web 1.0: the first iteration of the Internet 
+when users received and ingested content 
+created by webmasters and their teams. 
+
+TheThird Database Revolution
+◼Web 2.0: the shift to user -generated 
+content and a more user -friendly internet 
+for everyone. 
+❑Youtube and social media epitomise this phase 
+of the Internet. 
+❑For databases, it meant the needs of 
+developers and administrators had changed.
+❑There was a vast amount of data being added 
+to the Internet by users every second. 
+❑Cloud computing unlocked massive storage 
+and processing capabilities and the way we use 
+databases changed.
+
+TheThird Database Revolution
+◼Relational databases continued to have 
+their place, despite the shift away from 
+them in the online world. 
+◼Businesses still needed the reliability, 
+consistency and ease of programming for 
+their business systems.
+
+Examples of SQL databases
+oDb2
+oMySQL
+oPostgreSQL
+oYugabyteDB
+oCockroachDB
+oOracle Database
+oMicrosoft SQL Server
+oAzure SQL Database
+Database Transaction Models 
+(SQL vs NoSQL)
+◼SQL database transaction properties:
+ACID (Atomicity, Consistency, Isolation, and 
+Durability)
+◼NoSQL database transaction  
+properties: 
+BASE (Basically Available, Soft State, Eventual 
+consistency )
+SQL Database Transaction Model -ACID
+◼ACID Properties
+❑Atomicity
+◼'Allornothing' property .
+❑Consistency
+◼Must transform database from one consistent state to
+another (data integrity) .
+❑Isolation
+◼Partial effects of incomplete transactions should not be 
+visible to other transactions.
+❑Durability
+◼Effects of a committed transaction are permanent and must 
+not be lost because of  later failure.
+
+NoSQL Database
+❑A broad array of nonrelational database 
+technologies that have developed to address the 
+challenges represented by Big Data.
+❑Non-tabular, and data is stored differently than 
+relational tables. 
+❑NoSQL provide flexible schemas and scale easily 
+with large amounts of data and high user loads.
+❑Example: MongoDB, CouchDB, CouchBase , 
+Cassandra, HBase, Redis, Riak, Neo4J
+
+NoSQL Database Transaction Model -BASE
+◼Basically Available: 
+❑The system is guaranteed to be available in event of failure.
+◼Soft State: 
+❑The state of the data could change without application 
+interactions due to eventual consistency.
+◼Eventual Consistency: 
+❑The system will be eventually consistent after the application 
+input. 
+❑The data will be replicated to different nodes and will eventually 
+reach a consistent state. 
+❑But the consistency is not guaranteed at a transaction level.
+NoSQL Database
+◼NoSQL databases have the following properties:
+•They have higher scalability.
+•They use distributed computing.
+•They are cost effective.
+•They support flexible schema.
+•They can process both unstructured and semi -
+structured data.
+•There are no complex relationships, such as the 
+ones between tables in an RDBMS.
+NoSQL Database
+◼In this age of technology, the requirements 
+shifted towards simplicity regarding design 
+and scalability due to the vastly growing 
+nature of the new Internet. 
+❑24/7 availability and speed became of utmost 
+importance. 
+❑Traditional relational databases struggled 
+particularly with the scalability and speed 
+required, and due to NoSQL using different 
+data structures, it was generally faster. 
+❑They were also viewed as being more flexible 
+because they did not have the same constraints 
+as traditional relational databases.
+
+NoSQL Database
+◼Disadvantages of NoSQL:
+❑not able to use joins across tables 
+❑a lack of standardisation
+◼For the new generation of web developers, 
+NoSQL was better. 
+❑Massive innovations took place in the first two 
+decades of the 21st century, because website 
+and development was made much easier and it 
+could cope with the growing nature of the World 
+Wide Web. 
+
+NoSQL Database
+◼Big Data
+❑In 1960’s, the scientists have had to analyse
+particles that collide at 600 million times per 
+second. These analyses are done using a 
+countless number of rapidly taken photos, and 
+this involves a massive amount of storage and 
+sophisticated algorithms. 
+❑It was these scientists who first started 
+analysing what we now call big data. 
+
+NoSQL Database
+❑Big Data has 5 characteristics: 
+◼Volume -refers to the amount/quantity of data (i.e. a 
+high volume),
+◼Variety -refers to the variations in the structure of 
+the data to be stored, 
+◼Velocity -refers to the rapid rate or speed at which 
+the data is entering the system.
+◼Veracity -refers to the data's trustworthiness, 
+encompassing data quality, noise and anomaly 
+detection issues. 
+◼Value -Unlocking and transforming massive raw data 
+sets data into actionable insights that offer tangible 
+value by using Advanced Analytics, Machine Learning 
+and Artificial Intelligence.
+
+NoSQL Database
+◼Big Data
+❑Big Data is a collection of data that is huge in 
+volume yet growing exponentially with time. 
+❑It is a data with very large size and complexity 
+that none of traditional data management tools 
+can store it or process it efficiently. 
+❑Big data is also a data but with huge size.
+❑Google was one of the first companies to be 
+confronted with the problem of dealing with a 
+vast amount of data.
+
+NoSQL Database
+◼Big Data
+❑Following are some examples for Big Data:
+◼The New York Stock Exchange is an example of Big 
+Data that generates about one terabyte of new trade 
+data per day.
+◼The statistic shows that 500+ terabytes of new data 
+get ingested into the databases of social media site 
+Facebook , every day. 
+❑This data is mainly generated in terms of photo and 
+video uploads, message exchanges, putting comments 
+etc.
+◼A single Jet engine can generate 10+ terabytes of 
+data in 30 minutes of flight time. With many thousand 
+flights per day, generation of data reaches up to 
+many Petabytes .
+
+NoSQL Database
+◼Big Data
+❑Big Data requires a different approach to 
+distributed data storage that is designed for 
+large -scale clusters. 
+❑Hadoop has become the de facto standard for 
+most Big Data storage and processing. 
+❑Hadoop is widely used by organisations tapping 
+into the potential of analysing extremely large 
+data sets. 
+
+NoSQL Database
+◼Hadoop
+❑Hadoop is Java based framework used for storing 
+and processing big data. 
+◼It is an ecosystem of open -source components that 
+fundamentally changes the way enterprises store, 
+process, and analyze data. 
+❑The data is stored on inexpensive commodity 
+servers that run as clusters. 
+❑Hadoop Distributed File System (HDFS) enables 
+concurrent processing and fault tolerance. 
+NoSQL Database
+◼Hadoop Ecosystem
+❑Hadoop is a very low -level tool requiring 
+considerable effort to create, manage, and use, it 
+presents quite a few obstacles. 
+❑As a result, a host of related applications have 
+grown up around Hadoop to attempt to make it 
+easier to use and more accessible to users who 
+are not skilled at complex Java programming.
+❑Most organisations that use Hadoop also use a 
+set of other related products that interact and 
+complement each other to produce an entire 
+ecosystem of applications and tools. 
+NoSQL Database
+◼Hadoop Ecosystem
+ Hadoop 
+Ecosystem
+Data Modelling for NoSQL Databases
+◼Models of NoSQL 
+❑also called as data structures of NoSQL or types 
+of NoSQL Database
+
+Data Modelling for NoSQL Databases
+◼Key-Value (KV) Databases
+❑Simplest of the NoSQL data models.
+❑It stores data as a collection of key -value pairs.
+❑The key acts as an identifier for the value.
+❑The value can be anything such as text, an XML 
+document, or an image.
+❑Does not attempt to understand the contents of 
+the value component –it simply stores.
+❑KV pairs are organized into “buckets” (bucket is 
+equivalent to table)
+
+Data Modelling for NoSQL Databases
+◼Key-Value (KV) Databases
+
+Data Modelling for NoSQL Databases
+◼Document -Based Databases
+❑Similar to KV databases, can be considered a sub -
+type of KV databases.
+❑A NoSQL database that stores data in tagged 
+documents in KV pairs.
+❑Unlike a KV database where the value component can 
+contain any type of data, a document database always 
+store a document in the value component.
+❑The document can be in any encoded format, such as 
+XML, JSON (JavaScript Object Notation), or BSON 
+(Binary JSON).
+❑Document database do attempt to understand the 
+content of the value component, unlike KV database.
+
+Data Modelling for NoSQL Databases
+◼Document -Based Databases
+
+Data Modelling for NoSQL Databases
+◼Column -Based Databases
+❑A NoSQL database that organizes data in key -value 
+pairs with keys mapped to a set of columns in the 
+value component.
+❑Column -centric storage –A physical data storage 
+technique in which data is stored in blocks, which hold 
+data from a single column across many rows.
+❑Row-centric storage –A physical data storage 
+technique in which data is stored in blocks, which hold 
+data from all column of a given set of rows.
+
+Data Modelling for NoSQL Databases
+◼Column -Based Databases
+
+Data Modelling for NoSQL Databases
+◼Column -Based Databases
+❑Relational database presents data in logical tables; 
+however, the data is actually stored in data blocks 
+containing rows of data
+❑Row-centric storage minimizes the number of disk 
+reads necessary to retrieve a row of data.
+❑However, in queries that retrieve a small set of 
+columns across a large set of rows, a large number of 
+disk accesses are required.
+◼Example: a query that wants to retrieve only the city and state 
+of every customer will have to access every data block that 
+contains a customer row to retrieve that data. In the previous 
+figure: accessing five data blocks to get the city and state of 
+every customer.
+
+Data Modelling for NoSQL Databases
+◼Column -Based Databases
+❑A column -based database stores the data in blocks by 
+column instead of by row.
+❑A single customer’s data will be spread across several 
+blocks, but all of the data from single column will be in 
+just a few blocks.
+◼Query about city and state –only 2 blocks
+❑A column family database (column -based) is a NoSQL 
+database that organizes data in key -value pairs with 
+keys mapped to a set of columns in the value 
+component.
+◼In a column family database, a collection of columns or super 
+columns related to a collection of rows.
+
+Data Modelling for NoSQL Databases
+◼Column -Based Databases
+
+Data Modelling for NoSQL Databases
+◼Graph -Based Databases
+❑A NoSQL database based on graph theory to store 
+data about relationship -rich environments as a 
+collection of nodes and edges.
+❑Interest in graph -based databases originated in the 
+area of social networks, which include a wide range of 
+applications –Facebook, Twitter, Instagram, dating 
+websites, knowledge management, logistics and 
+routing, master data management etc.
+
+Data Modelling for NoSQL Databases
+◼Graph -Based Databases
+❑Node –the representation of a single entity instance.
+❑Edge –the representation of a relationship between 
+nodes.
+❑Properties –the attributes or characteristics of a node 
+or edge that are of interest to the users.
+❑Traversal –a query in a graph database.
+
+Data Modelling for NoSQL Databases
+◼Graph -Based Databases
+
+Examples of NoSQL databases
+◼Redis
+◼FaunaDB
+◼CouchDB
+◼MongoDB
+◼Cassandra
+◼Elasticsearch
+◼BigTable
+◼Neo4j
+◼HBase
+The End Of Lecture 11
+Thank You
+

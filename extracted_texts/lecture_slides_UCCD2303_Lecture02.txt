@@ -1,0 +1,571 @@
+UCCD2203 DATABASE SYSTEMS
+Introduction to Data Modelling and Design Part 2
+Lecture 2
+By 
+Mr. Cheang Kah Wai, Alvin
+Department of Information Systems, FICT
+Lecture 2 Topic: Introduction to Data 
+Modelling and Design -Part 2
+◼Enhanced Entity Relationship (EER) 
+Modelling
+◼The Relational Model
+2
+
+ENHANCED ENTITY 
+RELATIONSHIP (EER) 
+MODELLING
+3
+
+Enhanced Entity Relationship (EER) 
+Model
+◼Complexity of data structures being modeled has 
+increased and application software requirements have 
+become more stringent.
+◼The need to capture more information in the data 
+model has increased.
+◼Extension to Entity Relationship (ER) Model.
+◼Adding more semantic constructs to the original ER 
+model.
+4
+
+EER Model  Entity Supertypes and Subtypes
+◼Most employees possess a wide range of skills 
+and special qualifications.
+◼Data modelers must find a variety of ways to 
+group employees based on their characteristics.
+◼Example: 
+❑A retail company can group employees as salaried 
+and hourly
+❑A university could group employees as faculty, staff, 
+and administrators.
+5
+
+EER Model  Entity Supertypes and Subtypes
+◼The benefits of grouping of employees 
+into various types:
+❑Avoid unnecessary nulls in attributes when 
+some employees have characteristics that are 
+not shared by other employees.
+❑Enables a particular employee type to 
+participate in relationships that are unique to 
+that employee type.
+6
+
+EER Model  Entity Supertypes and Subtypes
+◼Let’s explore an aviation business that employs 
+pilots, mechanics, secretaries, accountants, 
+database managers, and many other types of 
+employees.
+❑Pilots share certain characteristics with other 
+employees, such as, last name and hire date.
+❑Nevertheless, many pilot characteristics are not shared 
+by other employees. 
+❑Pilots must meet special requirements such as flight 
+hour restrictions, flight checks and periodic training.
+7
+
+EER Model  Entity Supertypes and Subtypes
+◼Therefore, if all employee characteristics and 
+special qualifications were stored in a single 
+EMPLOYEE entity, you will have a lot of 
+nulls, or you will have to create needless 
+dummy entries.
+❑For example, employee license and employee 
+ratings are only applicable (special 
+characteristics) to pilots
+❑This will create null values for employees who 
+are not pilot.
+8
+
+EER Model  
+Entity Supertypes and Subtypes
+◼Pilots participate in some relationships that 
+are unique to their qualifications.
+❑For example, not all employees can fly airplanes; 
+only employees who are pilots can participate in 
+the “ employee flies airplane ” relationship.
+9
+
+EER Model  Entity Supertypes and Subtypes
+◼PILOT entity stores only attributes that are unique to 
+pilots and EMPLOYEE entity stores attributes that are 
+common to all employees.
+❑PILOT is a subtype of EMPLOYEE.
+❑EMPLOYEE is a supertype of PILOT.
+◼In modeling terms, an entity supertype is a generic 
+entity type that is related to one or more entity 
+subtypes .
+❑The entity supertype contains common characteristics.
+❑Each of the entity subtype contain their own unique 
+characteristics.
+Note: Supertypes and subtypes also known as superclasses and subclasses .
+10
+
+EER Model  
+Entity Supertypes and Subtypes
+◼Two criteria to help the database designer 
+determines when to use subtypes and 
+supertypes:
+❑There must be different, identifiable kinds or 
+types of the entity in the user’s environment.
+❑The different kinds or types of instances should 
+each have one or more attributes that are unique 
+to that kind or type of instance.
+11
+
+EER Model  
+Specialization
+◼Process of defining a set of subtypes of an entity 
+type (top -down).
+❑Supertypes -Parent entities
+❑Subtypes –Child entities
+◼Specialization hierarchy reflects the 1:1 relationship 
+between the supertype and its child entities.
+❑For example, a PILOT subtype occurrence is related to 
+one instance of the EMPLOYEE supertype.
+12
+
+EER Model  
+Specialization
+◼The relationships depicted within the 
+specialization hierarchy are sometimes 
+described in terms of “is -a” 
+relationships.
+❑For example, a pilot is an employee, a 
+mechanic is an employee, and an 
+accountant is an employee.
+13
+
+EER Model  
+Specialization
+◼Important to note: 
+❑A subtype can exist only within the context of a 
+supertype, and every subtype can have only one 
+supertype to which it is directly related.
+❑However, can have many levels of supertype or 
+subtype relationships –you can have a 
+specialization hierarchy in which a supertype has 
+many subtypes. In turn, one of the subtypes is 
+the supertype to other lower -level subtypes.
+14
+
+EER Model  
+Specialization
+◼HOURLY_EMPS is a subtype of EMPLOYEES and thus inherits its 
+attributes and relationships.
+◼CONTRACT_EMPS is a subtype of EMPLOYEES and thus inherits 
+its attributes and relationships.
+15
+
+EER Model  
+Specialization
+◼Specialization hierarchies enable the data model to capture 
+additional semantic content or meaning into the ERD.
+❑Support attribute inheritance.
+❑Define a special supertype attribute known as the subtype 
+discriminator.
+❑Define disjoint or overlapping constraints and complete or partial 
+constraints.
+16
+
+EER Model  
+Generalization
+◼Bottom -up process of identifying a higher -level, more 
+generic entity supertype from lower -level entity 
+subtypes.
+◼Based on grouping the common characteristics and 
+relationships of the subtypes.
+❑For example, you might identify multiple types of musical 
+instruments: piano, violin, and guitar. Using the 
+generalization approach, you could identify a “string 
+instrument” entity supertype to hold the common 
+characteristics of the multiple subtypes.
+17
+
+EER Model  
+Generalization
+18
+
+EER Model  
+Inheritance
+◼The property of inheritance enables an entity 
+subtype to inherit the attributes and 
+relationships of the supertype.
+◼One important inheritance characteristic is that 
+all entity subtypes inherit their primary key 
+attribute from their supertype.
+◼Subtypes can have additional attributes and 
+relationships. 
+19
+
+EER Model  
+Subtype Discriminator
+◼A subtype discriminator is the attribute in 
+the supertype entity that determines to 
+which subtype the supertype occurrence is 
+related.
+20
+
+EER Model  
+Disjoint and Overlapping Constraints
+◼Disjoint subtypes (also known as non-
+overlapping subtypes) are subtypes that contain 
+a unique subset of the supertype entity set.
+❑For example, an employee (supertype) who is a pilot 
+(subtype) can appear only in the PILOT subtype, not 
+in any of the other subtypes.
+❑In an ERD, disjoint types are indicated by the letter d
+inside the category shape.
+21
+
+EER Model  
+Disjoint and Overlapping Constraints
+◼Overlapping subtypes are subtypes that contain non -
+unique subsets of the supertype entity set; that is, each 
+entity instance of the supertype may appear in more than 
+one subtype.
+❑For example, in a university environment, a person may be an 
+employee, a student, or both.
+❑In turn, an employee may be a professor as well as an administrator.
+❑STUDENT and EMPLOYEE are overlapping subtypes of the 
+supertype PERSON.
+❑PROFESSOR and ADMINISTRATOR are overlapping subtypes 
+of the supertype EMPLOYEE.
+❑In an ERD, overlapping subtypes are indicated by the letter oinside 
+the category shape.
+22
+
+EER Model  
+Completeness Constraints
+◼Thecompleteness constraint specifies whether each 
+entity supertype occurrence must also be a member of 
+at least one subtype –can be partial or total.
+◼Partial completeness means that not every supertype 
+occurrence is a member of a subtype; some supertype 
+occurrences may not be members of any subtype.
+◼Total completeness means that every supertype 
+occurrence must be a member of at least one subtype.
+23
+
+EER Model  
+24
+Source: Coronel & Morris, Database Systems: Design, Implementation, & Management, 13e.
+THE RELATIONAL MODEL
+25
+
+The origins of the Relational Model
+◼Proposed by E.F.Codd (1970)
+◼Pioneer projects such as at IBM’s relational DBMS System R, and 
+UC-Berkeley’s relational Model INGRES (in mid -1970s)
+◼Today, still the dominant database model:
+◼IBM DB2, ORACLE, INFORMIX, SYBASE
+◼MICROSOFT Access, SQL Server
+◼FOXBASE, PARADOX
+◼Still more….
+◼In the relational model, all data is logically structured within relations 
+(tables).
+26
+
+Terminologies used in Relational Model
+Relational Model is based on the mathematical concept of a relation 
+(physically represented as Table ).
+◼Relation :  A Relation is a table with Rows and Columns .
+◼Attribute :  An Attribute is a named column of a relation.
+◼Domain : A Domain is the set of allowable values for one or more attributes .
+◼Tuple : A Tuple is a row of a relation .
+◼Degree : The Degree of a Relation is the number of attributes it contains . 
+Unary relation, binary relation, ternary & n -aryrelations
+◼Cardinality : The Cardinality of a relation is the number of tuples it 
+contains .
+◼Relational Database : A collection of normalized relations with 
+distinct relation names.
+27
+
+Instances of the Branch and Staff relations
+28
+Refer: Fig4.1, Page: 145
+Example of Attribute Domains
+29
+Refer: Fig 4.2, Page: 145
+
+Relational Model Terms and their SQL 
+Equivalents
+30
+Refer: Table 4.1, Page: 146
+
+Attribute domain can be shared
+31CREATE DOMAIN street ASVARCHAR 2(30),
+CREATE TABLE student(
+StNo number( 6)NOT NULL,
+…
+StStreet street,
+….);
+CREATE TABLE faculty(
+FaNo number( 4)NOT NULL,
+…
+FaStreet street,
+….);
+
+Database relations
+◼What is Schema?
+➢It is the structure of a database system, described in a formal language 
+supported by the Database Management System (DBMS). 
+➢In a relational database, the schema defines the tables, the fields in 
+each table, and the relationships between fields and tables.
+➢Schemas are generally stored in a data dictionary. 
+➢Although a schema is defined in text database language, the term is 
+often used to refer to a graphical depiction of the database structure.
+◼Relation schema :
+➢Named relation defined by a set of attribute and domain name pairs.
+S1 = {branchno:B005, street:22, city:London }
+R1 = { S1,S2,….., Sn}
+◼Relational database schema :
+➢Set of relation schemas, each with a distinct name.
+R = { R1, R2, R3,....,Rn}
+32
+
+Example of a Relation
+33
+Relation 
+Instance
+Relation 
+Schema
+S1
+S2
+S3
+S4
+Relation Schema
+R1={S1,S2,S3,…,Sn}
+Relational Database Schema
+R={R1,R2,R3,....,Rn}
+
+Relational Database Schema –Textual Form 
+(DreamHome Rental)
+34
+underlined attributes arePrimary keys.
+Usually asterisk marked (*)attributes areforeign keys, e.g.*staffNo .
+Relational Database Schema isalso simply known asRelational Schema
+
+Relational Database Schema –Graphical 
+Form (DreamHome Rental)
+35
+
+Properties of Relations
+◼Relation name is distinct from all other relation names 
+in relational schema.
+◼Each cell of relation contains exactly one atomic 
+(single) value.
+◼Each attribute has a distinct name.
+◼Values of an attribute are all from the same domain.
+◼Each tuple is distinct; there are no duplicate tuples .
+◼Order of attributes and of tuples has no significance.
+36
+
+Relational Keys
+◼Superkey
+An attribute, or a set of attributes, that uniquely identifies a tuple
+within a relation.
+May contain additional attributes not necessarily be unique. e.g. 
+Icno, stid, (stname,major ), (stid,stname )
+◼Candidate Key
+A minimal superkey . A superkey is minimal if removing any 
+columns makes it no longer unique.
+The candidate key has two properties: uniqueness and 
+irreducibility.
+37
+
+Relational Keys (contd..)
+◼Primary Key : 
+The candidate key that is selected to identify tuples uniquely  within relation.
+Every record must have a primary key and primary key cannot be NULL .
+An attribute ( or combination of attributes ) that uniquely identifies any 
+given row.
+Alternate Key/Secondary Key : The candidate keys that are not selected as 
+primary key.
+◼Foreign Key : 
+An attribute, or set of attributes, within one relation that matches the 
+candidate key of some ( possibly the same ) relation.
+Foreign key creates a relationship between the two tables.
+Foreign key value must exist in the table where referred to.
+38
+
+Relational Keys (contd..)
+◼Surrogate Key: 
+➢Created to be the record’s primary key identifier when no 
+suitable primary key exists
+➢Surrogate key has no real relationship to the record to which 
+it is assigned, other than to identify the record uniquely
+➢Developers configure the database to generate surrogate key 
+values automatically
+➢Surrogate keys are always numerical fields, because the 
+database generates surrogate key values automatically by 
+incrementing the previous value by one
+39
+
+Example for Relational keys
+40
+Examples :There aremany superkeys inthesample table above .
+Forexample, (SSN),(SSN, Phone Extension, Name )and (SSN, Name ),etc.Ofthose listed,
+only <SSN>isacandidate key, astheothers contain information notnecessary touniquely
+identify records .
+Superkey ={SSN, Ph.Ext.,(SSN, Ph.Ext.),(SSN, Age), (SSN, Name), (SSN, Age, Name), (SSN,
+Ph.Ext.,Age, Name), …………… ………… ...}
+Composite Key ={(SSN, Ph.Ext.),(SSN, Age, Name), ………………… .}
+Candidate Key ={SSN, Ph.Ext.}
+Primary Key ={SSN}
+Alternate Key ={Ph.Ext.}
+*Assume onestaff isonly assigned tooneTelephone Extension andthere aretwostaffs with thesame name .
+
+Example for Relational keys
+41Example: Consider the following tables:
+Staff(staffNo , SSN, name, position, salary, branchNo )
+Branch (branchNo,street,city,state,zipCode , mgrStaffNo )
+◼SuperKey = {staffNo , (staffNo , name), ( staffNo , position), 
+(staffNo , SSN), ( staffNo , branchNo ), (staffNo , name, 
+position), ( staffNo , name, salary), ( SSN,name ), … }
+◼Candidate Key = {staffNo , SSN}
+◼Primary Key = {staffNo }
+◼Foreign Key = { branchNo , mgrStaffNo }
+
+Composite Key
+◼is a unique key that you create by combining two or more fields
+◼is usually comprised of fields that are primary keys in other tables 
+42Composite key(S_ID andCOURSE_ID combined ).The value combinations must beunique .
+
+Constraints
+43Rules thatrestrict thedata values thatyoucanenter into afield ina
+database table.
+◼Types ofconstraint :
+❑Integrity constraints :Define primary andforeign keys.
+◼Entity Integrity :Inabase relation, noattribute ofaprimary
+keycanbenull.Notworows with thesame primary keyvalue
+◼Referential Integrity :Ifforeign keyexists inarelation, either
+foreign keyvalue must match acandidate keyvalue ofsome
+tuple initshome relation orforeign keyvalue must bewholly
+null.
+❑Value/Field/Domain Constraint :limits thevalue that canbe
+placed inaspecific field, irrespective ofvalues thatexist inother
+table records .
+
+Constraints (contd…)
+44❑General constraints :Additional rule specified by
+users ordatabase administrators ofadatabase that
+define orconstrain some aspect oftheenterprise .
+E.g.Only 20workers canwork inaBranch ora
+convent school only accept female students .
+
+Constraints (contd…)
+45The following are the Value Constraints :
+◼Check constraints : field value must be a specific value or fall within a 
+range of values
+Eg: s_class CHAR(2) CONSTRAINT student_s_class_cc CHECK
+((s_class = 'FR') OR(s_class = 'SO') OR(s_class = 'JR') OR(s_class = 
+'SR'))
+◼NOT NULL constraints : Specify whether a field value can be NULL
+◼Unique constraints : Specify that a field must have a unique value for 
+every table record
+◼Default constraints : Specify that a field has a default value that the 
+DBMS automatically inserts for every record, unless the user specifies an 
+alternate value
+Eg… (hire_date DATE DEFAULT SYSDATE ,) …
+
+Table Creation With Constraints
+46CREATE TABLE faculty
+(f_id NUMBER( 6),
+f_last VARCHAR 2(30)NOT NULL ,
+f_first VARCHAR 2(30),
+loc_id NUMBER( 6),
+f_phone VARCHAR 2(10),
+f_rank VARCHAR 2(8)CONSTRAINT fac_f_rank_cc CHECK ((f_rank =
+‘ASSO’)
+OR(f_rank =‘PROF') OR(f_rank =‘TUTO’) OR(f_rank =‘LECT')),
+f_sal NUMBER( 8,2)NOT NULL DEFAULT 0,
+F_email VARCHAR 2(30)UNIQUE ,
+CONSTRAINT faculty_f_id_pk PRIMARY KEY (f_id),
+CONSTRAINT faculty_loc_id_fk FOREIGN KEY (loc_id )
+REFERENCES location( loc_id ));
+
+Understanding NULL Value
+47◼Represents value foranattribute that iscurrently
+unknown ornotapplicable fortuple .
+◼Deals with incomplete orexceptional data.
+◼Represents theabsence ofavalue andisnotthesame
+aszero orspaces ,which arevalues .
+Eg:INSERT INTO student (StId,StLname ,
+StFname , StAdId ) values (10090 ,
+‘Cooper ’,‘Samantha ’,NULL )
+
+Enforcing Referential Integrity Constraint
+48Consider Enroll andStudent
+◼Student (sid,name, login, cgpa )
+◼Enrolled (sid,cid,grade)
+What should bedone ifanEnrolled tuple with anon-existent
+student idisinserted?
+◼Create thenon-existent Student IDatStudent table.
+◼Pick thevalid Student IDfrom Student table.
+What should bedone ifaStudent tuple isdeleted/updated?
+◼The values from theEnrolled table referencing Student table
+should beupdated/deleted aswell.
+
+Enforcing Referential Integrity 
+Constraint
+49❑Cascade delete
+❑Cascade update
+❑Noaction/restrict
+❑SetDefault
+❑SetNull
+Appropriate action depends onthetables involved .
+
+Views
+A view is a virtual or derived relation.
+◼Base Relation
+Named relation corresponding to an entity in 
+conceptual schema, whose tuples are physically stored 
+in database.
+◼View
+Dynamic result of one or more relational operations 
+operating on base relations to produce another relation . 
+50
+
+Base Relation and View
+51
+Base Relation
+(AllData inStaff Table)View 1(Vertical View)
+View 2(Horizontal View)
+
+52Views
+◼A virtual relation that does not necessarily, actually 
+exist in the database but is produced upon request, at 
+time of request.
+◼Allows each user to have his or her own view of the 
+database.
+◼A view is essentially some subset of the database.
+◼Contents of a view are defined as a query on one or 
+more base relations. 
+◼Views are dynamic, meaning that changes made to 
+base relations that affect view attributes are 
+immediately reflected in the view. 
+
+Simple View
+CREATE VIEW faculty_view AS
+SELECT f_id, f_last , f_first , f_mi, loc_id , f_phone , f_rank
+FROM faculty;
+53CREATE [OR REPLACE] VIEW viewname [(alias,[alias]….)] 
+AS subquery
+[WITH CHECK OPTION [CONSTRAINT constraint ]]
+[WITH READ ONLY[CONSTRAINT constraint ]]Creating a view
+
+54Advantages and Disadvantages of Views
+ADVANTAGES DISADVANTAGES
+Data Independence Update restriction
+Currency Structure restriction
+Improved Security Performance
+Reduced Complexity
+Convenience
+Customization
+Data Integrity
+
+The End of Lecture 2
+Thank You
+55
+

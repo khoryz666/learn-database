@@ -1,0 +1,482 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Practical 5: 
+PL/SQL Programming Constructs
+By Cheang Kah Wai, Alvin 
+
+Practical 5 Task: 
+PL/SQL Programming Constructs
+❑PL/SQL Decision Control Structures
+❑Using SQL Queries in PL/SQL Programs
+❑Loops 
+❑Cursors
+❑Handling Runtime Errors in PL/SQL 
+Programs
+|-UCCD2303/UCCD2203 -|
+ 2
+PL/SQL Decision Control 
+Structures
+
+PL/SQL Decision Control Structures
+◼Use IF/THEN structure to execute code if condition is true.
+IF condition THEN  
+commands that execute if condition is TRUE; 
+END IF;
+◼Use IF/THEN/ELSE to execute code if condition is true or 
+false.
+IF condition THEN  
+commands that execute if condition is TRUE; 
+ELSE  
+commands that execute if condition is FALSE; 
+END IF;
+◼Can be nested –be sure to end nested statements.
+4 |-UCCD2303/UCCD2203 -|
+
+PL/SQL Decision Control Structures
+◼Use IF/ELSIF to evaluate many conditions :
+IF condition1 THEN
+commands that execute if condition1 is TRUE;
+ELSIF condition2 THEN
+commands that execute if condition2 is TRUE;
+ELSIF condition3 THEN
+commands that execute if condition3 is TRUE;
+...
+ELSE
+commands that execute if none of the 
+conditions are TRUE;
+END IF;
+5 |-UCCD2303/UCCD2203 -|
+
+SET SERVEROUTPUT ON
+DECLARE
+on_hand  INTEGER := 0;
+on_order INTEGER := 100;
+BEGIN
+--Does not cause divide -by-zero error;
+--evaluation stops after first expression
+IF (on_hand = 0) OR ((on_order / on_hand) < 5) THEN
+DBMS_OUTPUT.PUT_LINE('On hand quantity is zero.');
+ELSE
+DBMS_OUTPUT.PUT_LINE('On hand quantity is not zero.');
+END IF;
+END;
+/
+|-UCCD2303/UCCD2203 -| 6
+|-UCCD2303/UCCD2203 -| 7IF/ELSIF Example
+
+Complex Conditions
+◼Created with logical operators AND, OR and NOT.
+◼AND is evaluated before OR.
+◼Use () to set precedence.
+8 |-UCCD2303/UCCD2203 -|
+
+Using SQL Queries in 
+PL/SQL Programs
+
+Using SQL Queries in PL/SQL Programs
+◼Action queries (DML) can be used as in SQL*Plus;
+-SELECT, INSERT, UPDATE, DELETE
+◼May use variables in action queries;
+Insert into student ( s_first) values ( curr_first_name )
+◼DDL commands cannot be used in PL/SQL;
+❑CREATE, ALTER, DROP
+10 |-UCCD2303/UCCD2203 -|
+
+Loops
+
+Loops
+◼Program structure that executes aseries ofprogram
+statements, and periodically evaluates an exit
+condition todetermine iftheloop should repeat or
+exit.
+◼Pretest loop:evaluates theexitcondition before any
+program commands execute .
+◼Posttest loop:executes one ormore program
+commands before theloop evaluates theexitcondition
+forthefirsttime.
+◼PL/SQL has5loop structures .
+12 |-UCCD2303/UCCD2203 -|
+
+1. The LOOP...EXIT Loop
+LOOP
+[program statements ]
+IF condition THEN
+EXIT;
+END IF;
+[additional program statements ]
+END LOOP
+13 |-UCCD2303/UCCD2203 -|
+
+1. The LOOP...EXIT Loop
+Sample Code
+DECLARE
+l_counter NUMBER := 0;
+BEGIN
+LOOP
+l_counter := l_counter + 1;
+IF l_counter > 3 THEN
+EXIT;
+END IF;
+dbms_output.put_line( 'Inside loop: ' || l_counter );
+END LOOP;
+dbms_output.put_line( 'After loop: ' || l_counter );
+END;
+/
+14 |-UCCD2303/UCCD2203 -|
+
+2. The LOOP...EXIT WHEN Loop
+LOOP
+program statements
+EXIT WHEN condition ;
+END LOOP;
+15 |-UCCD2303/UCCD2203 -|
+
+2. The LOOP...EXIT WHEN Loop
+Sample Code
+DECLARE
+l_counter NUMBER := 0;
+BEGIN
+LOOP
+l_counter := l_counter + 1;
+EXIT WHEN l_counter > 3;
+dbms_output.put_line( 'Inside loop: ' || l_counter ) ;
+END LOOP;
+dbms_output.put_line( 'After loop: ' || l_counter );
+END;
+/
+16 |-UCCD2303/UCCD2203 -|
+
+3. The WHILE...LOOP
+WHILE condition LOOP
+program statements
+END LOOP;
+17 |-UCCD2303/UCCD2203 -|
+
+3. The WHILE...LOOP
+Sample Code
+DECLARE
+n_counter NUMBER := 1;
+BEGIN
+WHILE n_counter <= 5
+LOOP
+DBMS_OUTPUT.PUT_LINE( 'Counter : ' || n_counter );
+n_counter := n_counter + 1;
+END LOOP;
+END;
+/
+18 |-UCCD2303/UCCD2203 -|
+
+4. The Numeric FOR Loop
+FOR counter_variable IN start_value ..end_value
+LOOP
+program statements
+END LOOP;
+19 |-UCCD2303/UCCD2203 -|
+Sample Code
+BEGIN
+FOR l_counter IN 1..5
+LOOP
+DBMS_OUTPUT.PUT_LINE( l_counter );
+END LOOP;
+END;
+/
+20 |-UCCD2303/UCCD2203 -|5. The cursor FOR Loop
+*Slide No 30
+Cursors
+
+Cursors
+◼Pointer to a memory location that the DBMS 
+uses to process a SQL query.
+◼Use to retrieve and manipulate database data.
+◼There are two kinds of cursors: implicit cursor
+and explicit cursor .
+22 |-UCCD2303/UCCD2203 -|
+
+Implicit Cursor
+23 |-UCCD2303/UCCD2203 -|
+
+Using an Implicit Cursor
+◼Executing a SELECT query creates an implicit cursor.
+◼To retrieve it into a variable use INTO :
+SELECT field1, field2, ...
+INTO variable1 , variable2 , ...
+FROM table1, table2, ...
+WHERE join_ conditions
+ANDsearch_condition_to_retrieve_1_record ;
+◼Can only be used with queries that return exactly one record.
+24 |-UCCD2303/UCCD2203 -|
+
+Implicit Cursor
+--IMPLICIT CURSOR (Only Return One Record)
+Set Serveroutput On 
+Declare
+V_location_id LOCATIONS.Location_id%type;
+V_street_address LOCATIONS.Street_address%type;
+Begin
+SELECT LOCATION_ID, STREET_ADDRESS INTO V_location_id, 
+V_street_address
+From Locations
+Where Location_id=1000; 
+Dbms_output.Put_line('the Info: '|| V_location_id ||' '|| 
+V_street_address);
+End;
+/
+|-UCCD2303/UCCD2203 -| 25
+--IMPLICIT CURSOR (Only return one record), alternative way to print the results
+VARIABLE return_msg VARCHAR2(100)
+DECLARE
+v_LOCATION_ID LOCATIONS.LOCATION_ID%TYPE;
+v_STREET_ADDRESS LOCATIONS.STREET_ADDRESS%TYPE;
+msg VARCHAR2(100);
+BEGIN
+SELECT LOCATION_ID, STREET_ADDRESS INTO v_LOCATION_ID,  
+v_STREET_ADDRESS
+FROM LOCATIONS
+WHERE LOCATION_ID=1000; 
+msg := TO_CHAR(v_LOCATION_ID) ||' '||v_STREET_ADDRESS;
+SELECT msg into :return_msg 
+FROM DUAL;
+END;
+/
+--To print the results
+PRINT :return_msg 
+--Alternatively you can set it as autoprint automatically or off
+SET AUTOPRINT ON
+|-UCCD2303/UCCD2203 -| 26
+Explicit Cursor
+◼Use for queries that return multiple 
+records or no records
+◼Must be explicitly declared and used
+27 |-UCCD2303/UCCD2203 -|
+
+Using an Explicit Cursor
+The steps for creating and using an explicit cursor are:
+1.Declare the cursor.
+CURSOR cursor_name IS select_query ;
+2.Open the cursor.
+OPEN cursor_name ;
+3.Fetch the data rows.
+LOOP
+FETCH cursor_name INTO variable_name (s);
+EXIT WHEN cursor_name%NOTFOUND ;
+4.Close the cursor.
+CLOSE cursor_name ;
+28 |-UCCD2303/UCCD2203 -|
+
+--EXPLICIT CURSOR (return more than one row) SIMPLE LOOP STYLE
+DECLARE 
+CURSOR loc_cursor IS
+SELECT room, capacity 
+FROM location
+WHERE bldg_code = 'LIB';
+loc_rec loc_cursor%ROWTYPE;
+BEGIN
+OPEN loc_cursor;
+LOOP
+FETCH loc_cursor INTO loc_rec;
+EXIT WHEN loc_cursor%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('The current room is ' || 
+loc_rec.room || ' Capacity ' || loc_rec.capacity );
+END LOOP;
+CLOSE loc_cursor;
+END;
+/|-UCCD2303/UCCD2203 -| 29
+5. Cursor FOR Loop
+◼Automatically opens the cursor, fetches the 
+records, then closes the cursor
+FORvariable_name (s) INcursor_name LOOP
+processing commands
+END LOOP;
+◼Cursor variables cannot be used outside loop
+30 |-UCCD2303/UCCD2203 -|
+
+--EXPLICIT CURSOR (return more than one row) FOR LOOP STYLE
+DECLARE
+CURSOR loc_cursor IS
+SELECT room, capacity  
+FROM location
+WHERE bldg_code = 'LIB';
+loc_rec loc_cursor%ROWTYPE;
+--No need open and close the cursor and fetch the data (the shortest 
+syntax)
+BEGIN
+FOR loc_rec IN loc_cursor
+LOOP
+DBMS_OUTPUT.PUT_LINE('The current room is ' || loc_rec.room || ' 
+Capacity ' || loc_rec.capacity );
+END LOOP;
+END;
+/ |-UCCD2303/UCCD2203 -| 31
+--EXPLICIT CURSOR (return more than one row) WHILE LOOP STYLE
+DECLARE
+cursor loc_cursor IS
+SELECT room, capacity  
+FROM location
+WHERE bldg_code = 'LIB';
+loc_rec loc_cursor%ROWTYPE;
+BEGIN
+OPEN loc_cursor;
+--The syntax for FETCH is doubled for WHILE LOOP style
+FETCH loc_cursor INTO loc_rec;
+while loc_cursor%FOUND LOOP
+DBMS_OUTPUT.PUT_LINE('The current room is ' || loc_rec.room || ' Capacity ' || 
+loc_rec.capacity );
+FETCH loc_cursor INTO loc_rec;
+END LOOP;
+CLOSE loc_cursor;
+END;
+/
+|-UCCD2303/UCCD2203 -| 32
+EXPLICIT CURSOR USING ROWTYPE
+--EXPLICIT CURSOR USING ROWTYPE
+DECLARE 
+CURSOR loc_cursor IS
+SELECT loc_id, room  FROM location WHERE bldg_code = 'LIB';
+loc_rec    loc_cursor%ROWTYPE;
+BEGIN
+OPEN loc_cursor;
+LOOP
+FETCH loc_cursor INTO loc_rec;
+EXIT WHEN loc_cursor%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('The current room is ' || loc_rec.room||' 
+'||loc_rec.loc_id);
+END LOOP; 
+CLOSE loc_cursor;
+END; 
+/|-UCCD2303/UCCD2203 -| 33
+EXPLICIT CURSOR USING ROWTYPE
+--Using an anonymous PL -SQL (Explicit cursor) to call the data
+SET SERVEROUTPUT ON
+DECLARE
+CURSOR emp_cursor IS
+SELECT employee_id, first_name,department_id
+FROM employees
+WHERE employee_id='103';
+emp_rec emp_cursor%ROWTYPE;
+BEGIN
+FOR emp_rec IN emp_cursor
+LOOP
+DBMS_OUTPUT.PUT_LINE ('Employee: '||emp_rec.employee_id || ' '|| 
+emp_rec.first_name||' works in the department: '||emp_rec.department_id);
+END LOOP; 
+END;
+/
+|-UCCD2303/UCCD2203 -| 34
+EXPLICIT CURSOR USING TYPE
+--EXPLICIT CURSOR USING TYPE
+DECLARE 
+CURSOR loc_cursor IS
+SELECT loc_id , room FROM location WHERE bldg_code = 'LIB';
+v_room location.room%TYPE ;
+v_loc_id location.loc_id%TYPE ;
+BEGIN
+OPEN loc_cursor ;
+LOOP
+FETCH loc_cursor INTO v_loc_id , v_room ;
+EXIT WHEN loc_cursor%NOTFOUND ;
+DBMS_OUTPUT.PUT_LINE ('The current room is ' || v_room ||' '|| V_loc_id );
+END LOOP; 
+CLOSE loc_cursor ;
+END;
+/
+|-UCCD2303/UCCD2203 -| 35
+Handling Runtime Errors 
+in PL/SQL Programs
+
+Handling Runtime Errors in PL/SQL Programs
+◼Runtime errors cause exceptions
+◼Exception handlers exist to deal with different error 
+situations
+◼Exceptions cause program control to fall to exception 
+section where exception is handled
+37 |-UCCD2303/UCCD2203 -|
+
+Predefined Exceptions
+38 |-UCCD2303/UCCD2203 -|
+
+SET SERVEROUTPUT ON
+DECLARE
+CURSOR e1 IS
+select location_id, street_address 
+from locations;
+vlocation_id locations.location_id%type;
+vstreet_address locations.street_address%type;
+BEGIN
+OPEN e1;
+LOOP
+FETCH e1 into vlocation_id , vstreet_address;
+EXIT when e1%notfound;
+DBMS_OUTPUT.PUT_LINE( vlocation_id ||' 
+'||vstreet_address );
+END LOOP;
+END;
+/|-UCCD2303/UCCD2203 -| 39
+--predefined exception
+SET SERVEROUTPUT ON
+DECLARE
+v_sal number (7, 2);
+BEGIN
+select salary into v_sal 
+from employees
+where employee_id = 299;
+dbms_output.put_line( 'Salary is '||v_sal);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('invalid number ');
+END;
+/
+|-UCCD2303/UCCD2203 -| 40
+Undefined Exceptions
+◼Less common errors [such as violating FK domain]
+◼Do not have predefined names
+◼Must declare your own name for the exception code in 
+the declaration section
+DECLARE
+e_exception_name EXCEPTION;
+PRAGMA EXCEPTION_INIT ( e_exception_name , 
+-Oracle_error_code );
+41 |-UCCD2303/UCCD2203 -|
+
+--non-defined error, error do not happened frequently
+SET SERVEROUTPUT ON
+DECLARE
+INSERT_EXCEP EXCEPTION;
+PRAGMA EXCEPTION_INIT
+(INSERT_EXCEP, -01400);
+BEGIN
+INSERT INTO DEPARTMENTS ( department_id , 
+department_name )
+VALUES (280, null);
+EXCEPTION
+WHEN INSERT_EXCEP THEN
+DBMS_OUTPUT.PUT_LINE('An exception is caught: insert 
+operation is failed');
+DBMS_OUTPUT.PUT_LINE( sqlerrm );
+END;
+/|-UCCD2303/UCCD2203 -| 42
+User-Defined Exceptions
+◼Not a real Oracle error 
+◼Use to enforce business rules
+43 |-UCCD2303/UCCD2203 -|
+
+DECLARE
+invalid_department_exp EXCEPTION;
+name varchar2(20):=' abc';
+deptno number :=99999;
+BEGIN
+update departments
+set department_name = name
+where department_id = deptno ;
+IF SQL%NOTFOUND THEN
+raise invalid_department_exp ;
+END IF;
+COMMIT;
+EXCEPTION
+WHEN invalid_department_exp THEN
+DBMS_OUTPUT.PUT_LINE('no such department id.');
+END;
+/
+|-UCCD2303/UCCD2203 -| 44
+End of  Practical 5
+|-UCCD2303/UCCD2203 -|
+ 45

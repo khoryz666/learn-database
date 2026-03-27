@@ -1,0 +1,354 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Practical 6 
+Advanced PL/SQL
+By MrCheang Kah Wai, Alvin
+
+Practical 6 Task: 
+Advanced PL/SQL
+❑Creating Stored Program Units
+❖Create Stored Procedures and Functions
+❖Calling Store Program Units from Other Stored 
+Program Units 
+❖Creating Packages
+❖Creating Database Triggers
+|-UCCD2303/UCCD2203 -|
+ 2
+Creating Stored Program 
+Units
+
+Program units
+◼AProgram unit isaself-contained group ofprogram
+statements thatcanbeused within alarger program .
+◼Stored program units areprogram units that other
+PL/SQL programs can reference, and that other
+database users canexecute .
+◼Stored program units canreceive input values from
+other program units, andpass output values toother
+program units .
+◼APL/SQL Stored program unit canruneither the
+database server orontheclient workstation .
+4 |-UCCD2303/UCCD2203 -|
+Types of Oracle 10 g Stored Program Units
+5 |-UCCD2303/UCCD2203 -|
+Stored program units
+◼Stored program units can be compiled 
+separately and stored permanently in an 
+Oracle database, ready to be executed. 
+◼Stored program units are stored in parsed, 
+compiled form. So, when called, they are 
+loaded and passed to the PL/SQL engine 
+immediately.
+6 |-UCCD2303/UCCD2203 -|
+Restrictions in stored program units
+◼Ifyoudelete anyPL/SQL stored program units, youmust also
+delete allreferences toitinyour other PL/SQL program .Ifnot,
+youwillreceive errors when youcompile, generate, orrunthe
+program .
+◼PL/SQL stored program unitnames must beunique within the
+program, and may notduplicate thenames ofanycolumns,
+groups, queries, orprintable objects .
+7 |-UCCD2303/UCCD2203 -|
+Creating Stored Program Units
+◼Procedures
+❑Receive multiple input parameters.
+❑Return multiple output values or return no output values.
+❑Perform action such as inserting, updating, or deleting 
+database records.
+◼Functions
+❑Receive multiple input parameters.
+❑Always returns single output value.
+8 |-UCCD2303/UCCD2203 -|
+Syntax to Create a Stored Program Unit: Procedure
+•CREATE_PROCEDURE command
+•Header
+•Parameter declarations list
+•Parameter mode
+–IN 
+–OUT
+–IN OUT
+•Program unit body
+•Exception section
+9 |-UCCD2303/UCCD2203 -|
+Example
+CREATE OR REPLACE PROCEDURE calc_GPA 
+(student_id IN NUMBER, 
+term_id IN NUMBER, 
+student_GPA OUT NUMBER)
+10 |-UCCD2303/UCCD2203 -|
+Creating a Stored Procedure in SQL*Plus
+11 |-UCCD2303/UCCD2203 -|CREATE OR REPLACE PROCEDURE update_enrollment_grade
+(
+current_s_id IN VARCHAR2,
+current_c_sec_id IN NUMBER,
+current_grade IN CHAR
+)
+IS
+BEGIN
+UPDATE enrollment
+SET grade = current_grade
+WHERE s_id=current_s_id
+AND c_sec_id=current_c_sec_id;
+COMMIT;
+END;
+/
+Debugging Procedure in SQL*Plus
+12 |-UCCD2303/UCCD2203 -|◼Similar to debugging any program
+◼Identify program line causing error
+◼SQL*Plus interpreter displays error warning message
+❑Does not automatically display compile error messages and 
+line locations
+❑Writes all compile errors to system table 
+◼Access using USER_ERRORS data dictionary view
+◼Execute SHOW ERRORS command
+Calling a Stored Procedure
+There are two ways to execute a procedure.
+1.From the SQL prompt.
+EXECUTE [or EXEC] 
+procedure_name (parameter1_value , 
+parameter2_value , ...);
+2.Within another procedure –simply use the procedure name.
+procedure_name ;
+13 |-UCCD2303/UCCD2203 -|
+Passing parameters to Procedure
+•INThe value oftheparameter ispassed into theprocedure when theprocedure is
+invoked .Itissimilar toread-only.
+•OUT Any value theparameter haswhen itiscalled isignored .When theprocedure
+finishes, anyvalue assigned totheparameter during itsexecution isreturned tothe
+calling environment .Itissimilar towrite -only.
+•INOUT This mode isacombination ofboth INand OUT .The value ofthe
+parameter canbepassed intotheprocedure when theprocedure isinvoked .Itisthen
+manipulated within theprocedure andreturned tothecalling environment .Itissimilar
+toread-write .
+14 |-UCCD2303/UCCD2203 -|
+Executing a stored procedure from the 
+SQL*Plus command line
+SQL> SELECT * FROM enrollment
+WHERE s_id =5 AND c_sec_id=13;
+SQL> EXECUTE update_enrollment_grade(5,13,‘B’);
+SQL> SELECT * FROM enrollment
+WHERE s_id =5 AND c_sec_id=13;
+|-UCCD2303/UCCD2203 -| 15
+
+Calling a Stored Procedure (continued)
+◼Variables passed for each parameter
+❑Must be in same order as parameters appear in parameter 
+declarations list
+◼Calling stored procedure from separate PL/SQL 
+program
+❑Similar to calling stored procedure from SQL*Plus 
+command line
+❑Omit EXECUTE command
+❑update_enrollment_grade (5, 13, ‘B’);
+16 |-UCCD2303/UCCD2203 -|
+Calling a stored procedure from a separate PL/SQL 
+program
+SQL> 
+DECLARE
+current_grade_update CHAR:=‘B’;
+BEGIN
+update_enrollment_grade(5,13, current_grade_update);
+END;
+/
+|-UCCD2303/UCCD2203 -| 17
+
+Syntax to Create a Stored Program Unit: Function
+18 |-UCCD2303/UCCD2203 -|
+Creating a Stored Program Unit: Function
+CREATE OR REPLACE FUNCTION age
+(date_of_birth IN DATE)
+RETURN NUMBER
+IS
+current_age NUMBER;
+BEGIN
+current_age:=TRUNC((SYSDATE –date_of_birth)/365.25);
+RETURN current_age;
+END;
+/
+|-UCCD2303/UCCD2203 -| 19
+
+Calling a Function
+◼Syntax:
+variable_name := function_name (parameter1 , 
+parameter2 , ...);
+◼Variables passed for parameter values
+❑Must be in same order as parameters appear in 
+function declaration
+20 |-UCCD2303/UCCD2203 -|
+Calling a Function from an anonymous PL/SQL 
+program
+SQL> DECLARE
+calculated_age NUMBER;
+current_dob DATE := TO_DATE (‘07/01/1971’, 
+‘DD/MM/YYYY’);
+BEGIN
+calculated_age := age(current_dob);
+DBMS_OUTPUT.PUT_LINE(‘Calculated age is  ’|| 
+calculated_age);
+END;
+/
+|-UCCD2303/UCCD2203 -| 21
+
+Block Type
+22 |-UCCD2303/UCCD2203 -|
+Packages
+◼A collection of procedures, functions, variables, and 
+SQL statements that are grouped together and 
+stored as a single program unit.
+◼Consist of two parts:
+❑Specification –declares all public constructs of the 
+package.
+❑Body –defines all constructs (public and private) of the 
+package, and so implements the specification . 
+|-UCCD2303/UCCD2203 -| 23
+
+Packages
+◼Oracle performs the following steps when a 
+procedure or package is created:
+❑It compiles the procedure or package.
+❑It stores the compiled code in memory.
+❑It stores the procedure or package in the database.
+|-UCCD2303/UCCD2203 -| 24
+
+Creating Packages (Specification)
+CREATE OR REPLACE PACKAGE 
+emp_security AS
+FUNCTION setid (D1 VARCHAR2, D2 
+VARCHAR2) RETURN VARCHAR2;
+END;
+|-UCCD2303/UCCD2203 -| 25
+
+Creating Packages (Body)
+CREATE OR REPLACE PACKAGE BODY 
+emp_security AS FUNCTION setid (D1 
+VARCHAR2, D2 VARCHAR2) RETURN VARCHAR2 
+IS stmt VARCHAR2(200);
+BEGIN
+stmt := 'ename = 
+SYS_CONTEXT("userenv","session_user")';
+RETURN stmt;
+END;
+END;
+|-UCCD2303/UCCD2203 -| 26
+
+Database Triggers
+◼Program units 
+❑Execute in response to database events of inserting, 
+updating, or deleting record
+◼Different from form triggers
+◼Useful for maintaining integrity constraints
+◼Similar to other program units
+❑But cannot accept parameters
+|-UCCD2303/UCCD2203 -| 27
+
+Database Trigger Properties
+◼Trigger timing
+◼BEFORE
+◼AFTER
+◼Trigger statement
+◼INSERT
+◼UPDATE
+◼DELETE
+◼Trigger level
+◼Statement -level
+◼Row-level
+|-UCCD2303/UCCD2203 -| 28◼Reference value of  field in current 
+record 
+❑Both before and after triggering 
+statement executes
+◼:OLD.fieldname
+◼:NEW .fieldname
+
+Syntax to Create a Stored Program Unit: Database 
+Triggers
+◼Database trigger header
+◼Trigger body
+|-UCCD2303/UCCD2203 -| 29
+
+Creating Database Triggers to Leave an Audit Trail for 
+the FOODORDERS Table
+|-UCCD2303/UCCD2203 -| 30SQL> CREATE TABLE foodorders
+( order_id number(5), quantity number(4),
+cost_per_item number(6,2),
+total_cost AS (quantity*cost_per_item),
+create_date date,
+CONSTRAINT order_id_unique UNIQUE (order_id)
+);
+CREATE TABLE foodorders_audit
+( order_id number(5),  quantity number(4),
+cost_per_item number(6,2),
+total_cost AS (quantity*cost_per_item),
+create_date date,
+CONSTRAINT order_id_unique UNIQUE (order_id)
+);
+
+Creating a Row -level Trigger
+SQL> INSERT INTO foodorders (order_id , quantity, 
+cost_per_item ) values (1,2,10);
+To create and test the row -level trigger: before_insert
+SQL>CREATE OR REPLACE TRIGGER orders_before_insert
+BEFORE INSERT
+ON foodorders
+FOR EACH ROW
+BEGIN
+--Update create_date field to current system date
+:new.create_date := sysdate;
+END;
+/
+|-UCCD2303/UCCD2203 -| 31
+
+Creating a Row -level Trigger
+SQL> INSERT INTO foodorders (order_id , quantity, 
+cost_per_item ) values (2,3,10);
+To create and test the row -level trigger: after_insert
+SQL>CREATE OR REPLACE TRIGGER orders_after_insert
+AFTER INSERT
+ON foodorders
+FOR EACH ROW
+BEGIN
+--Insert record into foodorders table
+INSERT INTO foodorders_audit
+(order_id,quantity,cost_per_item,create_date )
+VALUES
+(:new.order_id,:new.quantity,:new.cost_per_item,: new.create_date );
+END;
+/
+|-UCCD2303/UCCD2203 -| 32
+
+Creating a Statement -level Trigger
+SQL> INSERT INTO foodorders (order_id , quantity, 
+cost_per_item ) values (3,4,10);
+To create and test the statement -level trigger: after_insert
+SQL>CREATE OR REPLACE TRIGGER orders_after_INSERT_stmt_level
+AFTER INSERT
+ON foodorders
+BEGIN
+UPDATE foodorders set create_date = SYSDATE
+where order_id =1;
+END;
+/
+|-UCCD2303/UCCD2203 -| 33
+
+Disabling and Dropping Triggers
+◼Disable trigger
+❑Trigger still exists in user’s database schema 
+❑No longer fires when triggering event occurs
+❑Syntax:
+ALTER TRIGGER trigger_name [ENABLE | DISABLE];
+SQL> ALTER TRIGGER order_before_insert DISABLE;
+SQL> ALTER TRIGGER order_before_insert ENABLE;
+◼Drop trigger when not needed:
+DROP TRIGGER trigger_name ;
+SQL> DROP TRIGGER order_before_insert ;
+|-UCCD2303/UCCD2203 -| 34
+
+Viewing Information About Triggers
+◼Use USER_TRIGGERS data dictionary view to 
+retrieve information about triggers.
+SQL>SELECT trigger_name , trigger_type , 
+triggering_event FROM user_triggers ;
+|-UCCD2303/UCCD2203 -| 35
+
+End of  Practical 6
+|-UCCD2303/UCCD2203 -|
+ 36

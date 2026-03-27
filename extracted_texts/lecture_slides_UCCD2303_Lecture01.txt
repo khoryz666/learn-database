@@ -1,0 +1,476 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Introduction to Data Modelling and Design  
+Part 1
+Lecture 1
+By 
+MrCheang Kah Wai, Alvin
+Department of Information Systems, FICT
+
+Lecture 1 Topic: Introduction to Data 
+Modelling and Design –Part 1
+◼Database Concepts
+◼Database Architecture
+◼Data Modelling Using the Entity 
+Relationship (ER) Model
+
+DATABASE CONCEPTS
+
+Data Vs Information Vs Knowledge
+◼Data : raw material, from which one can deduce 
+new facts.
+◼Information: processed data (Summarized, 
+Organized, Labeled), meaningful to audience. 
+◼Knowledge: Knowing what information is required 
+and knowing what the information means.
+
+Raw data 
+Context
+InformationList of dates when a holiday 
+cottage has been booked.
+1/1/15, 4/1/15
+25/5/15, 1/6/15
+5/10/15, 10/10/15 
+4/12/15, 25/12/154/12/15, 1/6/15, 25/5/15, 
+10/10/15, 25/12/15, 1/1/15,  
+4/1/15, 5/10/15, 7/9/15
+Processing
+
+Limitations of  File -based Approach
+◼Separation and isolation of data
+◼Duplication of data
+◼Data dependence
+◼Incompatible file formats
+◼Fixed Queries/Proliferation (increase ) of 
+application programs
+
+Database System vs. File System
+
+Database
+❑A shared collection of logically related 
+data (raw facts) and a description of 
+this data, designed to meet the 
+information need of an organization .
+❑Metadata (data about data)
+
+End user data
+
+Descriptions of  the properties or characteristics of  the data, 
+including data types, field sizes, allowable values, and data 
+context
+
+Database Management Systems (DBMS)
+❑A software system that enables users to define, 
+create, maintain and control access to the 
+database .
+❑Collection of programs that manages database 
+structure and controls access to data
+❑Possible to share data among multiple applications 
+or users
+❑Makes data management more efficient and 
+effective
+
+Database Characteristics
+◼Persistent
+-Lasts a long time, outlives program that operate it.
+-Relevance of intended usage: only store potentially relevant data
+◼Inter -related
+-Entity: cluster of data about a topic (course, student, loan)
+-Relationship: connection among entities
+◼Shared
+-Multiple uses : hundreds to thousands of data entry screens and reports
+-Multiple users : many people simultaneously use a database
+◼Reliability
+-up all the time 
+
+Database Characteristics
+◼Massive
+-hundreds of gigabytes for medium size organization
+◼Safe
+-from system/software failure, from malicious users
+◼Efficient
+-retrieval, storing, etc
+◼Convenient
+-Simple commands to get the information
+
+Database System Environment
+
+Roles in the Database Environment
+❑Data and Database administrator 
+▪ Database administrator (DBA): More technical, DBMS specific skills
+▪ Data administrator : Less technical, Planning role
+❑Database Designers
+▪ Logical Database Designer : concerned on identifying the data, its relationship 
+and constraints, ways to store in database.
+▪ Physical Database Designer : decides how the logical DB design is to be 
+physically realized
+❑Application Developers: Works from a specification provided by system 
+analysts.
+❑End-Users
+▪ Naïve users : are typically unfamiliar with DBMS and 
+▪ Sophisticated users :  are familiar with the structure and facilities of DBMS
+
+Advantages of DBMS
+◼Control of data redundancy
+◼Data consistency
+◼More information from the same 
+amount of data.
+◼Sharing of data
+◼Improved data integrity (validity & 
+consistency)
+◼Improved security
+◼Enforcement of standards
+◼Economy of scale (cost saving, 
+shared resources)
+◼Balance of conflicting requirements
+◼Improved data accessibility and 
+responsiveness◼Increased productivity (reduced 
+programming time)
+◼Improved maintenance through data 
+independence
+◼Increased concurrency
+◼Improved backup and recovery 
+services
+
+Disadvantages of DBMS
+◼Complexity ( all functionalities make its design very 
+complex as well as s/w )
+◼Size ( complexity and many functions add to size, MBs 
+storage and memory space required )
+◼Cost of DBMSs
+◼Additional hardware costs
+◼Cost of conversion ( system, training, new staff hiring )
+◼Performance ( may be slower in certain cases )
+◼Greater impact of a failure( centralized resources, 
+increased vulnerability )
+
+Database :Arepository where anordered andintegrated collection
+oftheenterprise data isstored forcomputer processing and
+information sharing .
+Database Management System (DBMS ):DBMS isasoftware
+system that enables users todefine, create, maintain andcontrol
+access tothedatabase .
+Database System :The combination ofadatabase, adatabase
+management system and adata model .Itisresponsible forthe
+following data manipulation acts;data controlling, data retrieving,
+datamaintenance anddatadefinition .Database Terminology
+
+Database Terminology
+Data Warehouse (DW) :Itisacollection ofmethods,
+techniques, andtools used tosupport knowledge workers -
+senior managers, directors, andanalysts toconduct data
+analyses that help with performing decision -making
+processes andimproving information resources .
+Data Mining (DM) :Adata-driven approach toanalysis
+andprediction byapplying sophisticated techniques and
+algorithms todiscover knowledge .
+Three -level ANSI -SPARC Architecture*
+Refer: Fig 2.1, Page: 87* The American National Standards Institute (ANSI) -
+Standards Planning and Requirements Committee (SPARC)
+
+Objectives of  Three -Level Architecture
+◼It allows independent customized user views
+◼It hides the physical storage details from users
+◼The database administrator should be able to 
+change the database storage structures 
+without affecting the users ’ views
+◼The internal structure of the database should 
+be unaffected by changes to the physical 
+aspects of the storage
+
+Three -level ANSI -SPARC Architecture
+1.External Level
+❑Users' view of the database. 
+❑Describes that part of database that is relevant to a particular user.
+2.Conceptual Level
+❑Community view of the database.  
+❑Describes what data is stored in database and relationships among the 
+data. 
+3.Internal Level
+❑Physical representation of the database on the computer.  
+❑Describes how the data is stored in the database. 
+❑Depends on specific database software
+◼Change in DBMS software requires internal model be changed
+
+Schemas, Mapping and Instances
+❑Database Schema (intension of the database)
+✓The description of the database.
+✓Specified during design process.
+✓Do not change frequently unlike actual data.
+❑Database Instance (extension/state of database)
+✓The data in database at particular point in time.
+✓Same DB schema –many instances. Describes that part of database that is 
+relevant to a particular user.
+❑Conceptual/Internal mapping
+✓to find actual record in physical storage -logical record in conc. schema.
+❑External/Conceptual mapping
+✓to map names in user’s view to the relevant part of the conc. schema.
+
+Data Independence and the ANSI -SPARC 
+Three -level Architecture
+
+Database Languages
+◼Data Definition Language (DDL)
+➢Allows the DBA or user to describe and name entities, attributes, and 
+relationships required for the application.
+➢Used to define a schema or modify an existing one.
+➢plus any associated integrity and security constraints .
+◼Data Manipulation Language (DML)
+➢Provides basic data manipulation operations on data held in the database e.g. 
+Insert, delete, update records.
+❑Procedural DML : allows user to tell system exactly how to manipulate 
+data. Embedded in high level languages.
+❑Non-Procedural DML : allows user to state what data is needed rather 
+than how it is to be retrieved.
+
+Database Languages
+❑Fourth Generation Language (4GL)
+4GL are non -procedural languages, but define parameters for the tools that 
+uses them to generate an application program.
+❑Forms Generators: 
+✓an interactive facility for rapidly creating data input and display outputs for 
+screen forms.
+❑Report Generators:
+✓retrieves stored data from database and create reports.
+❑Graphics Generators : 
+✓retrieves data from database and display the data as a graph.
+❑Application Generators :
+✓that define, insert, update and retrieve data from the database to build 
+applications.
+
+Data Models
+◼Data Model
+Integrated collection of concepts for describing data, relationships between 
+data, and constraints on the data in an organization.
+❑Object -based Data Models
+✓Entity -Relationship
+✓Semantic
+✓Functional
+✓Object -Oriented
+❑Record -based Data Models
+✓Relational Data Model
+✓Network Data Model
+✓Hierarchical Data Model
+❑Physical Data Models
+
+Data Models and Conceptual Modeling
+◼Conceptual Modeling (Conceptual DB Design)
+✓Conceptual modeling is process of developing a model of information use 
+that is independent of implementation details.
+✓Result is a conceptual data model.
+✓Conceptual schema is the core of a system supporting all user views.
+✓Independent of implementation.
+✓Should be complete and accurate representation of an organization's data 
+requirements.
+
+DBMS Functions
+❑Data storage, retrieval, and update
+❑A user -accessible catalog
+❑Transaction support
+❑Concurrency control services
+❑Recovery services
+❑Authorization services
+❑Support for data communication
+❑Integrity services
+❑Services to promote data independence
+❑Utility services –import , monitor, analysis, garbage 
+collection
+
+DATABASE ARCHITECTURE
+
+DATABASE ARCHITECTURE
+oMulti -user DBMS Architectures
+oWeb services and Service -oriented 
+Architectures
+oDistributed DBMS
+oData Warehousing
+
+1. Multi -User DBMS Architectures
+1.1Teleprocessing
+1.2File-Server Architecture
+1.3Two-TierClient -Server Architecture
+1.4Three -TierClient -Server Architecture
+1.5N-TierArchitectures
+1.6Transaction Processing Monitors
+
+1.1Teleprocessing (1970 s)
+◼Traditional architecture.
+◼Single mainframe with anumber ofterminals
+attached .
+◼Theterminals depended onthemainframe
+◼The database software resided inthe
+mainframe computer .Almost allcomputer
+processing was done on these large
+mainframe computers .
+
+Teleprocessing Topology
+CPU
+Terminal 3Terminal 1
+Terminal 2
+Terminal 4 Terminal 5
+
+1.2File-Server (1980 s)
+◼File-server is connected to several workstations 
+across a network.
+◼Database resides on file -server.
+◼DBMS and applications run on each workstation.
+◼Disadvantages include:
+❑Significant network traffic.
+❑Copy of DBMS on each workstation.
+❑Concurrency, recovery and integrity control more 
+complex .
+
+File-server Architecture
+
+1.3 Two -Tier Client -server Architecture
+(1990s)
+◼Server holds thedatabase andtheDBMS .
+◼Client manages user interface and runs applications.
+◼Uses the internet and fast processing servers to 
+meet the needs.
+◼Advantages include :
+❑wider access toexisting databases
+❑increased performance
+❑possible reduction inhardware/software costs
+❑reduction incommunication costs
+❑increased consistency .
+
+Two-TierClient -server Architecture
+
+Client -server Architectures
+Generally a DBMS is divided into twoparts:
+◼Client –program that handles the main business 
+and data processing logic and interfaces with the 
+user;
+◼Server –program that manages and control 
+access to the database
+~~ two -tier architecture/ client -server architecture
+
+Variation of Client -server Architectures
+1.4 Three -Tier architecture
+Client server (User interface layer)
+Application server (Business logic and data processing layer)
+Database server (DBMS/storage) 
+1.5 Four -Tier architecture ( N-Tier)
+❑Three -Tier architecture can be expanded to N-Tier
+1.Client (User interface layer)
+2.Application server (Business logic and data processing layer)
+3.Database server (DBMS/storage) 
+4.Web server
+
+Three -Tier Client -server Architectures
+1.6 Transaction Processing Monitors
+◼Program that controls data transfer 
+between clients and servers in order to 
+provide a consistent environment, 
+particularly for Online Transaction 
+Processing (OLTP).
+
+Transaction Processing Monitor as middle 
+tier of a three -tier client -server architecture
+
+2. Web services and Service -oriented Architectures
+◼Service -oriented Architectures 
+Software system that supports interoperable 
+machine -to-machine interaction over a 
+network
+❑No user interface
+❑For example: Web services
+❑Uses widely accepted technologies and 
+standards
+
+Relationship between WSDL,UDDI, and 
+SOAP
+*XML : eXtensible Markup Language
+*WSDL : Web Services Description 
+Language* SOAP : Simple Object Access 
+Protocol
+*UDDI : Universal Discovery, Description 
+and Integration
+
+3. Distributed DBMS
+◼Distributed database
+Logically interrelated collection of shared data, physically 
+distributed over a computer network.
+◼Distributed DBMS
+Software system that permits the management of the distributed 
+database. And makes the distribution transparent to users.
+
+Distributed DBMS
+
+Characteristics of Distributed DBMS
+❑Collection of logically related shared data
+❑Data split into fragments
+❑Fragments may be replicated
+❑Fragments/replicas are allocated to sites
+❑Sites are linked by a communications network
+❑Data at each site is controlled by DBMS
+❑DBMS handles local apps autonomously
+❑Each DBMS in one or more global app
+
+Distributed Processing
+The difference between Distributed DBMS and 
+Distributed Processing:
+◼In Distributed DBMS, system consists of data is 
+physically distributed across a number of sites in the 
+network,
+◼In Distributed Processing, if the data is centralized, 
+even though other users may be accessing the data over 
+the network, will be treated as Distributed Processing 
+and do not consider to be Distributed DBMS.
+
+Distributed Processing
+
+4. Data warehousing
+◼Consolidated/integrated view of corporate data 
+◼Drawn from disparate operational data sources 
+◼Range of end -user access tools capable of 
+supporting simple to highly complex queries to 
+support decision making
+◼Subject -oriented, integrated, time -variant, and 
+nonvolatile
+
+Typical Architecture of a Data Warehouse
+
+DATA MODELLING USING 
+THE ENTITY -
+RELATIONSHIP(ER) MODEL
+
+Entity -Relationship (ER) Model
+◼It is a basis of an Entity Relationship Diagram (ERD).
+◼Top-down approach to database design that begins by 
+identifying the important data called:
+❑Entities
+❑Relationships
+❑Attributes
+❑Constraints
+◼ER concepts can be represented pictorially in an ER 
+Diagram using Unified Modelling Language (UML).
+
+Entity -Relationship (ER) Model
+The Attributes of The Student Entity: Chen and Crow’s Foot
+Source: Coronel & Morris
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+Crow’s Foot Notation
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+
+Entity -Relationship (ER) Model
+Note: Please use Crow’s Foot Model in your Quiz, Test, Assignment and Examination.
+The End of Lecture 1
+Thank You
+

@@ -1,0 +1,272 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Practical 3: 
+Using DDL to Create Database 
+Objects
+By MrCheang Kah Wai, Alvin
+
+Practical 3 Task: 
+Using DDL to Create Database Objects
+◼Creating and Using Database VIEWS
+◼Creating and Using Database SEQUENCES
+◼Creating and Using Database SYNONYMS
+◼Creating and Using Database INDEXES
+|-UCCD2303/UCCD2203 -|
+ 2
+Creating and Using 
+Database VIEWS
+
+Using Scripts
+◼One or more SQL commands saved in a text file
+◼Usually have . sqlextension
+◼To run from SQL*Plus:
+❑Start full file path (start c: \temp \myfile.sql)
+❑@full file path (@c:\temp \myfile.sql )
+❑Extension can be omitted if it is . sql
+|-UCCD2303/UCCD2203 -| 4
+Creating and Deleting Views
+◼SQL> CREATE OR REPLACE VIEW 
+view_name AS source_query ;
+◼SQL> DROP VIEW viewname ;
+|-UCCD2303/UCCD2203 -| 5
+VIEW
+SQL> CREATE OR REPLACE view faculty_view AS
+SELECT f_id, f_last , f_first , f_mi, loc_id , f_phone , f_rank
+FROM faculty;
+SQL> Select count(*) from faculty_view ;
+SQL> Select count(*) from faculty;
+SQL> INSERT INTO faculty_view VALUES
+(6, 'May', 'Lisa', 'I', 11, '7155552508', 'INST');
+SQL> Select count(*) from faculty_view ;
+SQL> Select count(*) from faculty;
+|-UCCD2303/UCCD2203 -| 6
+SQL> SELECT f_last , f_first , bldg_code , room
+FROM faculty_view , location
+WHERE faculty_view.loc_id = 
+location.loc_id ;Query using View
+|-UCCD2303/UCCD2203 -| 7
+Creating and Using Database Views
+◼Views can be updateable if:
+❑SELECT clause contains only fieldnames, no functions or 
+calculations
+❑no ORDER BY, DISTINCT, or GROUP BY clauses, group 
+functions, or set operators
+❑search condition cannot contain a nested query
+❑if query involves a single base relation and contains a primary 
+key or candidate key of base relation.
+❑Updates are not allowed involving multiple base relations.
+◼Views are used like tables for selecting, inserting, updating and 
+deleting data (only updatable views can be modified)
+|-UCCD2303/UCCD2203 -| 8
+SQL> CREATE OR REPLACE VIEW location_view
+AS  select * from location;
+SQL> Select * from location_view ;
+SQL> CREATE OR REPLACE VIEW 
+location_view2 AS select * from location_view
+where bldg_code ='BUS’;
+SQL> Select * from location_view2;Modify the created view
+|-UCCD2303/UCCD2203 -| 9
+SQL> update location_view2
+set bldg_code ='CR'
+where loc_id =8;
+SQL> select * from location_view2;
+SQL> Rollback;Update record in view 
+|-UCCD2303/UCCD2203 -| 10
+WITH CHECK OPTION
+SQL> CREATE OR REPLACE VIEW 
+location_view3 AS
+SELECT * from location_view WHERE 
+bldg_code ='BUS'
+WITH CHECK OPTION;
+|-UCCD2303/UCCD2203 -| 11
+SQL> select * from location_view3;
+SQL> update location_view3
+set bldg_code ='CR'
+where loc_id =8;
+SQL> select * from location_view3;Update record in view WITH CHECK OPTION
+|-UCCD2303/UCCD2203 -| 12
+SQL> CREATE OR REPLACE VIEW location3 
+AS
+SELECT count(*) as cntFROM location;
+SQL> SELECT * FROM location3;
+SQL> INSERT INTO location3 values(2);Views that cannot be updated 
+|-UCCD2303/UCCD2203 -| 13
+SQL> CREATE OR REPLACE VIEW   
+inventory_view AS
+SELECT item_desc , inv_size , color, inv_price ,   
+inv_qoh , inv_price *inv_qoh AS value
+FROM inventory, item
+WHERE item.item_id = inventory.item_id
+ORDER BY item_desc ;
+SQL> SELECT item_desc , SUM(value)
+FROM inventory_view
+GROUP BY item_desc ;Simplify Complex Operations 
+|-UCCD2303/UCCD2203 -| 14
+WITH READ ONLY
+SQL>  CREATE OR REPLACE VIEW 
+location_view4 AS
+SELECT * FROM location  
+WITH READ ONLY;
+SQL> UPDATE location_view4
+SET bldg_code ='CR'
+WHERE loc_id =8;
+|-UCCD2303/UCCD2203 -| 15
+Dual
+◼A table with one row 
+◼Belongs to system user
+◼Cannot delete or modify
+|-UCCD2303/UCCD2203 -| 16
+Creating and Using 
+Database SEQUENCES
+
+SEQUENCE
+|-UCCD2303/UCCD2203 -| 18
+Sequences
+◼Sequential lists of numbers to create unique 
+surrogate key values
+◼NEXTVAL, CURRVAL
+|-UCCD2303/UCCD2203 -| 19
+SQL> CREATE SEQUENCE idseq
+START WITH 20
+MAXVALUE 9999
+NOCYCLE ;
+SQL> SELECT sequence_name FROM 
+user_sequences ;
+SQL> Select idseq.NEXTVAL from dual;
+SQL> Select idseq.CURRVAL from dual;
+|-UCCD2303/UCCD2203 -| 20
+Confirming Sequence
+SQL> DESC user_sequences ;
+SQL> SELECT *  FROM user_sequences ;
+|-UCCD2303/UCCD2203 -| 21
+Modifying a Sequence
+◼ALTER SEQUENCE
+◼** START WITH option cannot be changed.
+SQL> Alter sequence idseq
+Increment by 20
+Maxvalue 999999
+Nocache
+Nocycle ; 
+|-UCCD2303/UCCD2203 -| 22
+Insert a record using Sequence
+SQL> SELECT * FROM term ;
+SQL> INSERT INTO term VALUES
+(idseq.NEXTVAL , ‘FALL 2012’, ‘CLOSED’);
+SQL> SELECT * FROM term ;
+|-UCCD2303/UCCD2203 -| 23
+Gaps in sequence values
+◼A rollback occurs
+◼System crashes
+◼A sequence is used in another table
+|-UCCD2303/UCCD2203 -| 24
+Creating and Using 
+Database SYNONYMS
+
+SYNONYM
+◼Simplify access to objects by 
+creating a synonym
+◼Ease referring to a table owned by 
+another user
+◼Shorten lengthy object names
+|-UCCD2303/UCCD2203 -| 26
+Create Synonym
+SQL> CREATE PUBLIC SYNONYM loc
+FOR location;
+SQL>INSERT INTO loc VALUES
+(system.idseq.NEXTVAL , 'CR', '135', 50);
+|-UCCD2303/UCCD2203 -| 27
+Drop Synonym
+SQL> CREATE PUBLIC SYNONYM loc
+FOR location;
+SQL> Drop public synonym loc;
+SQL> CREATE SYNONYM loc
+FOR location;
+SQL>Drop synonym loc;
+|-UCCD2303/UCCD2203 -| 28
+Creating and Using 
+Database INDEXES
+
+Database Indexes
+◼Similar to an index in a book,
+◼Used to speed searches ,
+◼Uses ROWID column to represent internal location of 
+the record in the database,
+❑ROWID tells the database exactly where the row is located.
+◼Primary key indexed automatically,
+◼Unlimited number allowed, but more indexes means 
+more processing time for action queries (insert, update, 
+delete),
+◼Is independent of the table it indexes,
+◼Is used and maintained automatically by Oracle server.
+|-UCCD2303/UCCD2203 -| 30
+Query Processing
+SQL> Select c_sec_id , max_enrl from 
+course_section where max_enrl > 40;
+|-UCCD2303/UCCD2203 -| 31
+Creating an Index
+◼Create index after table data is loaded
+CREATE INDEX index_name ON 
+tablename (index_fieldname );
+◼Convention for naming index: tablename_fieldname .
+|-UCCD2303/UCCD2203 -| 32
+SQL> CREATE INDEX 
+course_section_max_enrl
+ON course_section (max_enrl );
+SQL> SELECT rowid , max_enrl
+FROM course_section
+ORDER BY max_enrl ;Create Index
+|-UCCD2303/UCCD2203 -| 33
+Composite Index
+◼Contains multiple (up to 16) sorted columns
+◼Used for queries with multiple search conditions
+CREATE INDEX index_name ON 
+tablename (index_fieldname1, index_fieldname2, …);
+|-UCCD2303/UCCD2203 -| 34
+SQL> CREATE INDEX 
+consultant_skill_skill_id_cert
+ON consultant_skill (skill_id , 
+certification);Creating composite Index
+|-UCCD2303/UCCD2203 -| 35
+SQL> SELECT * FROM consultant_skill ;
+SQL> SELECT ROWID, skill_id , certification 
+FROM consultant_skill
+ORDER BY skill_id , certification;
+SQL> SELECT * FROM consultant_skill
+WHERE skill_id =1 AND certification = ‘Y’;Composite Index
+|-UCCD2303/UCCD2203 -| 36
+Viewing Index Information
+◼Use data dictionary view USER_INDEXES
+SQL> SELECT index_name
+FROM user_indexes ;
+|-UCCD2303/UCCD2203 -| 37
+Dropping an Index
+◼If an index is no longer needed or does not 
+improve performance, delete it.
+SQL> DROP INDEX index_name ;
+SQL> DROP INDEX 
+course_section_max_enrl ;
+|-UCCD2303/UCCD2203 -| 38
+Use an Index When
+◼Table contains a large number of records (a rule of 
+thumb is that a large table contains over 100,000 
+records)
+◼The field contains a wide range of values
+◼The field contains a large number of NULL values
+◼Application queries frequently use the field in a 
+search condition or join condition
+◼Most queries retrieve less than 2% to 4% of the 
+table rows
+|-UCCD2303/UCCD2203 -| 39
+Do Not Use an Index When
+◼The table does not contain a large number 
+of records
+◼Applications do not use the proposed 
+index field in a query search condition
+◼Most queries retrieve more than 2% to 4% 
+of the table records
+◼Applications frequently insert or modify 
+table data
+|-UCCD2303/UCCD2203 -| 40
+End of  Practical 3
+|-UCCD2303/UCCD2203 -|
+ 41

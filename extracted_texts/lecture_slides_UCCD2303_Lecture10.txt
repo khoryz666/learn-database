@@ -1,0 +1,465 @@
+UCCD2203 DATABASE SYSTEMS
+Lecture 10
+By 
+Mr. Cheang Kah Wai, Alvin
+Department of Information Systems, FICT
+Lecture 10 Topic: Data Management 
+and Databases Engines -Part 1
+◼Mobile Databases
+◼Cloud Databases
+◼Web Databases
+◼Multimedia Databases
+◼Spatial Databases
+◼Search Engines
+2
+Mobile Databases
+◼Increasing demands on mobile
+computing toprovide the types of
+support required bygrowing number of
+mobile workers andendcustomers .
+◼Work asifintheoffice butinreality
+working from remote locations .
+◼The‘Office’ may accompany remote
+worker inform oflaptop, smartphone ,
+tablet orother Internet access device .
+3
+
+Mobile Database
+◼Adatabase that isportable and
+physically separate from acentralized
+database server, but iscapable of
+communicating with server from
+remote sites allowing thesharing of
+corporate data.
+4
+
+Typical architecture foramobile database
+environment
+5
+
+Mobile DBMS
+◼Functionality required of mobile DBMSs includes 
+ability to:
+❑communicate with centralized database server through 
+modes such as wireless or Internet access ;
+❑replicate data on centralized database server and mobile 
+device ;
+❑synchronize data on centralized database server and 
+mobile device ;
+❑capture data from various sources such as Internet ;
+❑manage/analyze data on the mobile device;
+❑create customized mobile applications.
+6
+
+Mobile Computing Architecture
+7
+
+Issues with Mobile DBMSs
+◼Issues allowing access to corporate DBMS:
+❑bandwidth is low with wireless communication;
+❑still many areas where wireless connectivity is not available;
+❑wireless connectivity may be unreliable, which may result in data 
+loss or loss of data integrity;
+❑expensive to transfer large amounts of data over a wireless WAN;
+❑security may be an issue ( eg. mobile device stolen);
+❑mobile devices have a limited battery power;
+❑retrieval will be much slower than if the data were stored on the 
+local (mobile) device;
+❑mobile hosts are not stationary and move from cell to cell, which 
+makes identification more difficult .
+8
+
+Differences :stationary andmobile apps
+9
+
+Cloud Databases
+◼Acloud database isadatabase thatiscreated
+and maintained using cloud data
+services ,such asMicrosoft Azure or
+Amazon AWS .
+◼These services, provided bythird-party
+vendors, provide defined performance
+measures (data storage capacity, required
+throughput, andavailability) forthedatabase,
+butdonotnecessarily specify theunderlying
+infrastructure toimplement it.
+10
+
+Cloud Databases
+◼Thedata owners donothave toknow orbe
+concerned about thehardware andsoftware
+used tosupport their databases .
+◼The performance capabilities can be
+renegotiated with thecloud provider asthe
+business demands onthedatabase change .
+11
+
+Cloud Databases
+◼Forexample, 3MHealth Information Systems used
+Amazon’s AWS cloud database services to
+consolidate itsmultiple ITcenters .
+❑Simply purchased storage andprocessing capacity forits
+dataandapplications .
+❑Additional storage and processing capacity could be
+purchased asneeded, asthedemands increased .
+❑Server provisioning processes which took 10weeks to
+complete could bedone inmere minutes .
+❑More responsive tocustomer needs andinnovate faster .
+12
+
+Cloud Databases
+◼Acloud database offers alltheadvantages ofalocal
+DBMS, but instead ofresiding within the
+organization’s network infrastructure, itresides on
+theInternet .
+◼Companies cannow quickly addcloud databases to
+their environment while lowering thetotal cost of
+ownership ofanewDBMS .
+13
+
+Cloud Computing
+◼According totheNational Institute ofStandards
+and Technology (NIST), cloud computing isa
+“computing model for enabling ubiquitous,
+convenient, on-demand network access toashared
+pool ofconfigurable computer resources (e.g.,
+networks, servers, storage, applications and
+services) that can berapidly provisioned and
+released with minimal management effort orservice
+providerinteraction” .
+14
+
+Cloud Services
+15
+
+Cloud Services
+◼Computing model that enables access toashared
+pool ofconfigurable computer resources that can
+be:
+❑Rapidly provisioned
+❑Released with minimal management effort orservice
+provider interaction
+◼Potential tobecome agame changer
+◼Eliminates financial andtechnological barriers
+16
+
+Cloud Implementation Types
+◼Public cloud
+❑Built byathird-party organization tosellcloud services to
+thegeneral public
+◼Private cloud
+❑Built byanorganization forthesolepurpose ofservicing
+itsown needs
+◼Community cloud
+❑Built byandforaspecific group oforganizations that
+share acommon trade
+17
+
+Characteristics ofCloud Services
+◼Ubiquitous access viaInternet technologies
+◼Shared infrastructure
+◼Lower costs andvariable pricing
+◼Flexible andscalable services
+◼Dynamic provisioning
+◼Service orientation
+◼Managed operations
+18
+
+Types ofCloud Services
+19
+
+Cloud Services :Advantages andDisadvantages
+20
+
+Web Databases
+◼Aweb database isadatabase thatcanbeaccessed
+from alocal network ortheinternet instead of
+one that hasitsdata stored onadesktop orits
+attached storage .
+◼Web database canbeused forawide range of
+functions, such as:
+❑membership database,
+❑inventory database,
+❑e-commerce applications such asonline stores,
+❑business -to-business (B2B)support products .
+◼Awebdatabase isatype ofWeb Application .
+21
+
+Web Databases
+◼Used forboth professional andpersonal use,they
+arehosted onwebsites, andaresoftware asservice
+(SaaS) products, which means that access is
+provided viaawebbrowser .
+◼One ofthetypes ofweb databases thatyoumay be
+more familiar with isarelational database .
+❑Relational databases allow you tostore data ingroups
+(known astables), through itsability tolink records
+together .
+❑Ituses indexes and keys, tolocate information fields
+stored inthe database, enabling you toretrieve
+information quickly .
+22
+
+Web Application Servers
+◼Middleware application that expands the
+functionality ofweb servers bylinking them toa
+wide range ofservices, such asdatabases, directory
+systems, andsearch engines, which areused to:
+❑Connect toandquery database from webpage
+❑Present database datainawebpage using various formats
+❑Create dynamic websearch pages
+❑Create webpages toinsert, update anddelete data
+❑Enforce referential integrity
+❑Use simple and nested queries and program logic to
+represent business rules
+23
+
+Web Application Server Features
+◼Integrated development environment
+◼Security anduserauthentication
+◼Computational languages
+◼Automation generation ofHTML pages
+◼Performance andfault -tolerant features
+◼Database access with transaction management
+capabilities
+◼Access tomultiple services
+24
+
+Web Database Development
+◼Process ofinterfacing databases with the web
+browser
+◼Code examples :
+❑ColdFusion
+❑PHP
+❑ASP.NET
+25
+
+Web Databases -Advantages
+◼Web database applications canbefreeorrequire payment .
+Even ifyour business shrinks orexpands, your needs canbe
+accommodated bytheamount ofserver space .Nocost of
+installing anentire software program .
+◼Theinformation isaccessible from almost anydevice .
+◼Have their own technical support team .So, your IT
+department canfocus onother pressing company matters .
+◼It’s convenient :web databases allow users toupdate
+information .Allyou have todoistocreate simple web
+forms .
+26
+
+Multimedia Databases
+◼Multimedia database isacollection ofrelated multimedia
+data.
+❑stores dataintheform of,text, images, graphic, animation, audio and
+video .
+◼Amultimedia database isadatabase that include one or
+more primary media filetypes such as.txt(documents), .jpg
+(images), .swf(videos), .mp3(audio), etc.
+27
+
+Multimedia Databases -Evolution
+◼Existing relational andobject -oriented databases comprise
+the basic requirements ofany database, but tostore
+multimedia data, multimedia databases were evolved, which
+includes :
+❑long bitandbyte strings
+❑BLOBS (Binary Large Objects)
+❑paths orreferences ofimages where the actual image stored
+elsewhere, such asonanoptical storage subsystem
+❑content retrieval capabilities .
+28
+
+Multimedia Database Management System (MMDBMS)
+◼MMDBMS isaframework thatmanages different types of
+data potentially represented inawide diversity offormat on
+awide array ofmedia sources .
+◼Itprovides support formultimedia data types forthe
+following :
+❑Creation
+❑Storage
+❑Access
+❑Query
+❑Control ofamultimedia database
+29
+
+Contents ofMMDBMS
+◼Media data -actual data representing images, audio, video that are
+captured, digitized, processes, compressed andstored .
+◼Media format data -contains format information ofthemedia data
+after itgoes through theacquisition, processing, andencoding phases .
+❑Forinstance, thisconsists ofinformation such asthesampling rate, resolution, frame
+rate, encoding scheme etc.
+◼Media keyword data -contains thekeyword descriptions,
+❑Forexample, foravideo, thismight include thedate, time, andplace ofrecording ,the
+person who recorded, thescene that isrecorded, etc.This isalso called ascontent
+descriptive data.
+◼Media feature data -contains thefeatures derived from themedia data.
+❑For example, contain information about thedistribution ofcolors, thekinds of
+textures and thedifferent shapes present inanimage .This isalso referred toas
+content dependent data.
+30
+
+Contents ofMMDBMS
+◼The lastthree types arecalled meta data asthey describe several
+different aspects ofthemedia data.
+◼Themedia keyword data andmedia feature data areused asindices for
+searching purpose .
+◼Themedia format dataisused topresent theretrieved information .
+31
+
+Characteristics ofMultimedia Databases
+◼Corresponding Storage Media
+❑Data must bestored &managed according totheir specific characteristics of
+thestorage media
+◼Descriptive Search Methods
+❑Query must bedescriptive &content oriented
+◼View Specific &Simultaneous Data Access
+❑Same datacanbeaccessed through different queries bydifferent applications
+◼Management ofLarge Amounts ofdata
+❑DBMS must becapable ofhandling andmanaging large amounts ofdata.
+Need appropriate referencing mechanism .
+32
+
+Characteristics ofMultimedia Databases
+◼Real time Data Transfer
+❑Data transfer ofrealtime activity gets higher priority than other database
+activities
+◼Large Transactions
+❑Large transactions must bedone inareliable fashion, since ittakelong time.
+33
+
+Requirements ofMultimedia Databases
+◼Integration
+❑Data items donotneed tobeduplicated fordifferent programs invocations
+◼Data Independence
+❑Separate thedatabase andthemanagement from theapplication programs
+◼Concurrency Control
+❑Allows concurrent transactions
+◼Persistence
+❑Data objects canbesaved andre-used bydifferent transactions andprogram
+invocations
+Cont..
+34
+
+Requirements ofMultimedia Databases
+◼Privacy
+❑Access andauthorization control
+◼Integrity Control
+❑Ensures database consistency between transactions
+◼Recovery
+❑Failures oftransactions should notaffect thepersistent datastorage
+◼Query Support
+❑Allows easyquerying ofmultimedia data
+35
+
+Architecture ofMultimedia Databases
+36
+
+Spatial Databases
+◼Aspatial database isadatabase thatisoptimized forstoring
+and querying data that represents objects defined ina
+geometric space .
+◼These data areoften associated with geographic locations
+andfeatures, orconstructed features likecities .
+◼Data onspatial databases arestored ascoordinates, points,
+lines, polygons andtopology .
+◼Some spatial databases handle more complex datalikethree -
+dimensional objects, topological coverage and linear
+networks .
+37
+
+Spatial Databases
+◼Common database systems useindexes forafaster and
+more efficient search andaccess ofdata.
+◼This index, however, isnotfitforspatial queries .
+◼Spatial databases usesomething likeaunique index called a
+spatial index tospeed updatabase performance .
+◼Spatial indexing isvery much required because asystem
+should beable toretrieve data from alarge collection of
+objects without really searching thewhole bunch .
+◼Itshould also support relationships between connecting
+objects from different classes inabetter manner than just
+filtering .
+38
+
+Spatial Databases
+◼Aside from theindexes, spatial databases also offer spatial
+datatypes intheir datamodel andquery language .
+◼These databases require special kinds ofdata types to
+provide afundamental abstraction andmodel thestructure
+ofthe geometric objects with their corresponding
+relationships andoperations inthespatial environment .
+◼Without these kind ofdata types, thesystem would notbe
+able tosupport thekind ofmodeling aspatial database
+offers .
+39
+
+Spatial Databases
+40
+
+Spatial Databases –Existing Applications
+◼Geographic Information System
+◼Computer AidDesign
+◼Multimedia Information System
+◼Data Warehousing
+◼NASA Earth Observation System
+◼Commercial Examples :
+❑Informix’s Spatial Data Blade
+❑Oracle’s Universal Server with Spatial Data
+❑ESRI’s Spatial Data Engine
+41
+
+Search Engines
+◼Asearch engine isasoftware system that isdesigned to
+carry outwebsearches .
+❑Search theWorld Wide Web inasystematic way forparticular
+information specified inatextual websearch query .
+❑The search results aregenerally presented inalineofresults, often
+referred toassearch engine results pages (SERPs) .
+◼The information may beamix oflinks toweb pages,
+images, videos, infographics, articles, research papers, and
+other types offiles.
+42
+
+Search Engines
+◼Some search engines alsomine dataavailable indatabases or
+open directories .
+◼Unlike webdirectories, which aremaintained only byhuman
+editors, search engines also maintain real-time information
+byrunning analgorithm onawebcrawler .
+◼Internet content thatisnotcapable ofbeing searched bya
+websearch engine isgenerally described asthedeep web.
+43
+
+Search Engines vsDatabases
+◼Databases andsearch engines areboth capable ofsearch for
+data and handling queries .Each technology relies on
+different paradigms toorganize andretrieve information .
+◼While databases canstore and retrieve avast amount of
+structured data, search engines cansearch unstructured text.
+◼Adatabase isacollection ofinformation that isorganized
+andstored tobeaccessed forlater use.
+❑Asanexample, amanual version ofadatabase would belikea
+rolodex with specific fields ofinformation .
+◼Search engines aremore like theindex ofabook—
+except thatit’sacollection ofevery index forevery book
+youhave.
+44
+
+Search Engines vsDatabases
+◼Example ofsearch engines areGoogle, Bing, Yahoo, etc.
+◼However, search engines also apply smaller -scale full-text
+search software, such asthose for online publishing,
+interactive catalogs, classified advertising, digital asset
+management, intelligence andwebsearching .
+◼Search engine software makes theprocess ofretrieving
+relevant information much easier byallowing users tosearch
+forinformation with natural language text.
+◼The results willthen beorganized byrelevance, which can
+include text documents, geographic information, images,
+video, audio, andother payload data.
+45
+
+The End Of Lecture 10
+Thank You
+46

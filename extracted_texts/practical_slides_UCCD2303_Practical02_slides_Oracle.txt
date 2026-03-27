@@ -1,0 +1,590 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Practical 2: 
+Using SQL Queries to Join and View 
+Data
+By MrCheang Kah Wai, Alvin
+Practical 2 Task: 
+Using SQL Queries to Join and View Data
+◼Joining Multiple Tables using Inner Joins, 
+Outer Joins, Self Joins
+◼Creating Nested Queries
+◼Using Set Operators to Combine Query Results
+|-UCCD2303/UCCD2203 -|
+Joining Multiple Tables 
+using Inner Joins, Outer 
+Joins, Self Joins
+
+Run the following scripts before the practical starts
+❑Northwoods
+❑Clearwater
+❑Software
+❑HR_Schema
+❑Job_grades
+|-UCCD2303/UCCD2203 -|
+
+Types of Joins
+SQL:1999 standard
+◼Natural joins :
+❑NATURAL JOIN clause
+❑USING clause
+❑ON clause
+◼OUTER joins
+❑LEFT OUTER JOIN
+❑RIGHT OUTER JOIN
+❑FULL OUTER JOIN
+◼Self join
+◼Cross joinsOracle Proprietary Joins
+◼Simple join/Inner 
+Joins/Equijoins
+◼Non-equijoin
+◼Outer join
+◼Self join
+◼Cartesian product
+|-UCCD2303/UCCD2203 -|
+
+Joining Tables Using SQL: 1999 Syntax
+SELECT table1.column, table2.colmn
+FROM table1
+[NATURAL JOIN table2] | 
+[JOIN table2 USING ( column_name )] | 
+[JOIN table2 on 
+(table1.column_name=table2.column_name)] | 
+[LEFT|RIGHT|FULL OUTER JOIN table2
+ON (table1.column_name=table2.column_name)] |
+[CROSS JOIN table2];
+|-UCCD2303/UCCD2203 -|
+
+Qualifying Ambiguous Column Names
+◼Use table prefixes to qualify column names that are 
+in multiple tables.
+◼Use table prefixes to improve performance.
+◼Table alias gives a table a shorter name
+❑Keeps SQL code smaller, uses less memory
+|-UCCD2303/UCCD2203 -|
+
+Natural Join
+◼The NATURAL JOIN clause is based on all the 
+columns in the two tables that have the same name.
+◼It selects rows from the two tables that have equal 
+values in all matched column.
+◼If the columns having the same names and have 
+different data types, an error is returned.
+|-UCCD2303/UCCD2203 -|
+
+Natural Join
+SELECT l.city, d.department_name
+FROM locations l NATURAL JOIN departments d
+WHERE location_id =1400;
+|-UCCD2303/UCCD2203 -|
+
+Creating Joins with the USING clause
+◼If several columns have the same names but the 
+data type do not match, use the USING clause to 
+specify the column for the equijoin.
+◼Use the USING clause to match only one column 
+when more than one column matches.
+◼The NATURAL JOIN and USING clauses are 
+mutually exclusive
+|-UCCD2303/UCCD2203 -|
+
+Using table aliases with the USING 
+Clause
+◼Do not qualify a column that is used in the USING 
+clause
+◼If the same column is used elsewhere in the SQL 
+statement, do not alias it.
+SELECT l.city, d.department_name
+FROM locations l JOIN departments d
+USING ( location_id )
+WHERE d.location_id =1400;
+ERROR at line 4:
+ORA -25154: column part of USING clause cannot   
+have qualifier
+|-UCCD2303/UCCD2203 -|
+
+USING Clause
+SELECT l.city, d.department_name
+FROM locations l JOIN departments d
+USING ( location_id )
+WHERE location_id =1400;
+CITY                           DEPARTMENT_NAME
+------------------------------ ------------------------------
+Southlake                      IT
+|-UCCD2303/UCCD2203 -|
+
+The column that are common in both tables, but not used in the USING 
+clause, must be prefix with a table alias.
+SELECT first_name , department_name , manager_id
+FROM employees e JOIN departments d
+USING ( department_id )
+WHERE department_id =50;
+SELECT first_name , department_name , manager_id
+*
+ERROR at line 1:
+ORA -00918: column ambiguously defined
+|-UCCD2303/UCCD2203 -|
+
+The column that are common in both tables, but not used in the USING 
+clause, must be prefix with a table alias.
+SELECT first_name , department_name , 
+d.manager_id
+FROM employees e JOIN departments d
+USING ( department_id )
+WHERE department_id =50;
+|-UCCD2303/UCCD2203 -|
+
+Do not qualify a column that is used in the USING 
+clause
+SELECT first_name , department_name , d.manager_id
+FROM employees e JOIN departments d
+USING ( d.department_id )
+WHERE department_id =50;
+USING ( d.department_id )
+*
+ERROR at line 3:
+ORA -01748: only simple column names allowed here
+|-UCCD2303/UCCD2203 -|
+
+USING clause
+SELECT first_name , department_name , 
+d.manager_id
+FROM employees e JOIN departments d
+USING ( department_id )
+WHERE department_id =50;
+|-UCCD2303/UCCD2203 -|
+
+Creating Joins with the ON clause
+◼Use the ON clause to specify arbitrary conditions 
+or specific column to join.
+◼The join condition is separated from other search 
+conditions
+◼The ON clause makes code easy to understand.
+|-UCCD2303/UCCD2203 -|
+
+SQL -1999:
+SELECT e.employee_id , e.last_name , e.department_id ,
+d.department_id , d.location_id
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id ;
+Oracle Syntax: 
+SELECT e.employee_id , e.last_name , e.department_id ,
+d.department_id , d.location_id
+FROM employees e, departments d
+WHERE e.department_id = d.department_id ;
+|-UCCD2303/UCCD2203 -|
+
+SQL -1999:
+SELECT employee_id , city, department_name
+FROM employees e
+JOIN departments d
+ON d.department_id = e.department_id
+JOIN locations l
+ON d.location_id = l.location_id ;
+Oracle Syntax:
+SELECT employee_id , city, department_name
+FROM employees e, departments d, locations l
+Where d.department_id = e.department_id
+and d.location_id = l.location_id ;Joins (more than 2 tables)
+|-UCCD2303/UCCD2203 -|
+
+Apply Additional Conditions to Join
+SQL -1999:
+SELECT e.employee_id , e.last_name , e.department_id ,
+d.department_id , d.location_id
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id
+AND e.manager_id =149;
+OR
+SELECT e.employee_id , e.last_name , e.department_id ,
+d.department_id , d.location_id
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id
+WHERE e.manager_id =149;
+|-UCCD2303/UCCD2203 -|
+
+Apply Additional Conditions to Join
+Oracle Syntax: 
+SELECT e.employee_id , e.last_name , 
+e.department_id ,
+d.department_id , d.location_id
+FROM employees e, departments d
+WHERE e.department_id = d.department_id
+AND e.manager_id =149;
+|-UCCD2303/UCCD2203 -|
+
+Self Join
+To find the name of  each employee’s manager, 
+you need to join the EMPLOYEES table to 
+itself; 
+|-UCCD2303/UCCD2203 -|
+
+Self-join using the ON clause
+SQL -1999 :
+SELECT worker.last_name emp, manager.last_name mgr
+FROM employees worker JOIN employees manager
+ON ( worker.manager_id =manager.employee_id )
+Oracle Syntax :
+SELECT worker.last_name emp, manager.last_name mgr
+FROM employees worker, employees manager
+Where worker.manager_id =manager.employee_id ;
+|-UCCD2303/UCCD2203 -|
+
+Can we use USING to do Self join?
+◼Cannot, because the column name doesn’t match.
+|-UCCD2303/UCCD2203 -|
+
+Nonequijoins
+◼Is a join condition containing something other than 
+an equality operator.
+|-UCCD2303/UCCD2203 -|
+
+Nonequijoins
+SQL -1999:
+SELECT e.last_name , e.salary , j.grade_level
+FROM employees e JOIN job_grades j
+ON e.salary BETWEEN j.lowest_sal AND j.highest_sal ;
+Oracle Syntax:
+SELECT e.last_name , e.salary , j.grade_level
+FROM employees e,  job_grades j
+WHERE e.salary BETWEEN j.lowest_sal AND 
+j.highest_sal ;
+|-UCCD2303/UCCD2203 -|
+
+Outer Join
+◼Left outer join
+◼Right outer join
+◼Full outer join
+|-UCCD2303/UCCD2203 -|
+
+INNER Versus OUTER Joins
+◼In SQL -1999, the join of two tables returning only 
+matched rows is called an INNER join.
+◼A join between two tables that returns the results of 
+the INNER join as well as the unmatched rows 
+from the left (or right) table is called a left )or right) 
+OUTER join.
+◼A join between two tables that returns the results of 
+an INNER join as well as the results of a left and 
+right join is a full OUTER join.
+|-UCCD2303/UCCD2203 -|
+
+Employee(s) who doesn’t belong to any 
+department
+select first_name , last_name
+from employees
+where department_id is null;
+FIRST_NAME           LAST_NAME
+-------------------- -------------------------
+Kimberely Grant
+|-UCCD2303/UCCD2203 -|
+
+Department which does not have 
+employee
+select department_name ,  department_id
+from departments
+where not exists (select *
+from employees
+where departments.department_id =employees.department_id );
+DEPARTMENT_NAME                DEPARTMENT_ID
+------------------------------ -------------
+Contracting                           190
+IT Helpdesk                          230
+|-UCCD2303/UCCD2203 -|
+
+LEFT Outer Join
+SQL -1999:
+SELECT e.last_name , e.department_id , d.department_name
+FROM employees e LEFT OUTER JOIN departments d
+ON ( e.department_id =d.department_id );
+LAST_NAME    DEPARTMENT_ID DEPARTMENT_NAME
+--------------------- ----------------- ------------------------------
+Whalen                               10 Administration
+Hartstein 20 Marketing
+…..
+Greenberg                          100 Finance
+Higgins                               110 Accounting
+Grant
+|-UCCD2303/UCCD2203 -|
+
+LEFT Outer Join
+Oracle Syntax:
+SELECT e.last_name , e.department_id , 
+d.department_name
+FROM employees e , departments d
+WHERE e.department_id =d.department_id (+);
+|-UCCD2303/UCCD2203 -|
+
+RIGHT Outer join
+SQL -1999:
+SELECT e.last_name , e.department_id , d.department_name
+FROM employees e RIGHT OUTER JOIN departments d
+ON ( e.department_id =d.department_id );
+LAST_NAME          DEPARTMENT_ID DEPARTMENT_NAME
+------------------------- ------------- ------------------------------
+King                                    90 Executive
+Kochhar 90 Executive
+De Haan 90 Executive
+….
+Higgins                                110 Accounting
+Contracting
+IT Helpdesk
+|-UCCD2303/UCCD2203 -|
+
+RIGHT Outer join
+Oracle Syntax:
+SELECT e.last_name , e.department_id , 
+d.department_name
+FROM employees e , departments d
+WHERE e.department_id (+) = d.department_id
+|-UCCD2303/UCCD2203 -|
+
+FULL Outer Join
+SQL -1999:
+SELECT e.last_name , e.department_id , d.department_name
+FROM employees e FULL OUTER JOIN departments d
+ON ( e.department_id =d.department_id );
+LAST_NAME                 DEPARTMENT_ID DEPARTMENT_NAME
+------------------------- ------------- ------------------------------
+Whalen                              10 Administration
+Hartstein 20 Marketing
+…….
+Higgins                             110 Accounting
+Grant
+Contracting
+IT Helpdesk
+|-UCCD2303/UCCD2203 -|
+
+FULL Outer Join
+ORACLE SYNTAX:
+SELECT e.last_name , e.department_id , d.department_name
+FROM employees e , departments d
+WHERE e.department_id =d.department_id (+)
+union all 
+SELECT e.last_name , e.department_id , d.department_name
+FROM employees e , departments d
+WHERE e.department_id (+) = d.department_id
+and e.department_id is null;
+LAST_NAME                 DEPARTMENT_ID DEPARTMENT_NAME
+------------------------- ------------- ------------------------------
+King 90 Executive
+Greenberg 100 Finance
+Higgins 110 Accounting
+Contracting
+IT Helpdesk
+|-UCCD2303/UCCD2203 -|
+
+Cartesian Products
+◼A Cartesian Product is formed when:
+❑A join condition is omitted
+❑A join condition is invalid
+❑All rows in the first table are joined to all rows in the 
+second table
+|-UCCD2303/UCCD2203 -|
+
+Generating a Cartesian Product (Cross 
+Joins)
+|-UCCD2303/UCCD2203 -|
+
+Cross Joins
+SQL -1999:
+SELECT last_name , department_name
+FROM employees
+CROSS JOIN departments;
+LAST_NAME           DEPARTMENT_NAME
+------------------------- ------------------------------
+King                         Administration
+Kochhar Administration
+De Haan Administration
+Baer                         IT Helpdesk
+Higgins                    IT Helpdesk
+286 rows selected.
+|-UCCD2303/UCCD2203 -|
+
+Oracle Syntax:
+SELECT last_name, department_name
+FROM employees, departments;
+|-UCCD2303/UCCD2203 -|
+
+Creating Nested Queries
+
+Nested Queries/Subqueries
+|-UCCD2303/UCCD2203 -|
+
+The inner query (or subquery ) returns a value that is used by the outer 
+query (or main query). 
+|-UCCD2303/UCCD2203 -|
+
+Guidelines for Using Subqueries:
+◼Enclose subqueries in parentheses.
+◼Place subqueries on the right side of the 
+comparison condition.
+◼The ORDER BY clause in the subquery is not 
+needed unless you are performing Top -N analysis.
+◼Use single -row operators with single -row 
+subqueries , and use multiple -row operators with 
+multiple -row subqueries .
+|-UCCD2303/UCCD2203 -|
+
+Types of Subqueries:
+|-UCCD2303/UCCD2203 -|
+
+Nested Queries
+Suppose you need to retrieve the first and last 
+names of all students who have the same 
+S_CLASS value (freshman, Sophomore, and so 
+forth) as student Amanda Mobley.
+|-UCCD2303/UCCD2203 -|
+
+SELECT s_last , s_first
+FROM student
+WHERE s_class =
+(SELECT s_class
+FROM student
+WHERE s_last = 'Mobley'
+AND s_first = 'Amanda');Nested Queries
+|-UCCD2303/UCCD2203 -|
+
+◼Suppose you want to retrieve the names of 
+all students who have ever been enrolled in 
+the same course section as Amanda 
+Mobley.Nested Queries
+|-UCCD2303/UCCD2203 -|
+
+SELECT c_sec_id
+FROM student, enrollment 
+WHERE student.s_id = enrollment.s_id
+AND s_last = 'Mobley'
+AND s_first = 'Amanda'Course section Amanda Mobley enrolled 
+in
+|-UCCD2303/UCCD2203 -|
+
+SELECT s_last , s_first
+FROM student, enrollment
+WHERE student.s_id = enrollment.s_id
+AND c_sec_id in
+(SELECT c_sec_id
+FROM student, enrollment
+WHERE student.s_id = enrollment.s_id
+AND s_last = 'Mobley'
+AND s_first = 'Amanda');The names of all students who have ever been enrolled 
+in the same course section as Amanda Mobley
+|-UCCD2303/UCCD2203 -|
+
+SELECT DISTINCT s_last , s_first
+FROM student, enrollment
+WHERE student.s_id = enrollment.s_id
+AND c_sec_id IN
+(SELECT c_sec_id
+FROM student, enrollment
+WHERE student.s_id = enrollment.s_id
+AND s_last = 'Mobley'
+AND s_first = 'Amanda');Eliminate the duplicates using DISTINCT
+|-UCCD2303/UCCD2203 -|
+Using the ANY Operator in Multiple -Row 
+Subqueries
+|-UCCD2303/UCCD2203 -|
+
+Using the ALL Operator in Multiple -Row 
+Subqueries
+|-UCCD2303/UCCD2203 -|
+
+Null Values in a Subquery
+|-UCCD2303/UCCD2203 -|
+
+Using Set Operators to 
+Combine Query Results
+
+Set Operator: UNION and UNION ALL
+◼UNION set operator joins the output of two 
+unrelated queries into a single output result.
+◼To create a telephone directory of every 
+student and faculty member at 
+Northwoods University
+|-UCCD2303/UCCD2203 -|
+
+SELECT s_last, s_first, s_phone
+FROM student
+UNION
+SELECT f_last, f_first, f_phone
+FROM faculty;Set Operator: UNION  
+|-UCCD2303/UCCD2203 -|
+
+Displayed the names of 
+all consultants who worked on project ID 5 
+or
+who had expertise with skill ID 1 (VB.NET 
+Programming).Set Operator: UNION and UNION ALL
+|-UCCD2303/UCCD2203 -|
+
+SELECT c_last
+FROM consultant, project_consultant
+WHERE consultant.c_id = 
+project_consultant.c_id AND p_id = 5
+UNION
+SELECT c_last
+FROM consultant, consultant_skill
+WHERE consultant.c_id = consultant_skill.c_id
+AND skill_id = 1;Set Operator: UNION  
+|-UCCD2303/UCCD2203 -|
+
+SELECT c_last
+FROM consultant, project_consultant
+WHERE consultant.c_id = 
+project_consultant.c_id AND p_id = 5
+UNION ALL
+SELECT c_last
+FROM consultant, consultant_skill
+WHERE consultant.c_id = consultant_skill.c_id
+AND skill_id = 1;Set Operator: UNION ALL  
+|-UCCD2303/UCCD2203 -|
+
+UNION & UNION ALL 
+◼UNION suppresses duplicate values
+◼UNION ALL includes duplicate values
+|-UCCD2303/UCCD2203 -|
+
+INTERSECT -takes only matching fields
+Displayed the names of all consultants who worked 
+on project ID 5 AND who had expertise with skill 
+ID 1 (VB.NET Programming).
+It returns the results that are both to be found in first and 
+second SELECT statement.
+|-UCCD2303/UCCD2203 -|
+
+SELECT c_last
+FROM consultant, project_consultant
+WHERE consultant.c_id = project_consultant.c_id
+AND p_id = 5
+INTERSECT
+SELECT c_last
+FROM consultant, consultant_skill
+WHERE consultant.c_id = consultant_skill.c_id
+AND skill_id = 1;Retrieves only the names of  consultants that satisfy both of  
+these requirements
+|-UCCD2303/UCCD2203 -|
+
+MINUS -takes only fields in query1 not query2
+◼The MINUS operator allows you to find the 
+difference between two unrelated query result lists.
+◼Suppose you need to retrieve the names of all Northwoods
+University faculty members who have taught courses in the 
+Business (BUS) building, but whose offices are not located in 
+BUS. 
+|-UCCD2303/UCCD2203 -|
+
+SELECT f_first , f_last
+FROM faculty, location, course_section
+WHERE faculty.f_id = course_section.f_id
+AND location.loc_id = course_section.loc_id
+AND bldg_code = 'BUS'
+MINUS
+SELECT f_first , f_last
+FROM faculty, location
+WHERE faculty.loc_id = location.loc_id
+AND bldg_code = 'BUS';MINUS
+|-UCCD2303/UCCD2203 -|
+
+End of  Practical 2
+|-UCCD2303/UCCD2203 -|
+

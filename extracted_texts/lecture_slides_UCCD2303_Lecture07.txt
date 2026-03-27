@@ -1,0 +1,269 @@
+UCCD2203 DATABASE SYSTEMS
+Lecture 7
+By 
+Mr. Cheang Kah Wai, Alvin
+Department of Information Systems, FICT
+Relational Algebra -Introduction
+Relational Algebra ;
+—examines the Query language associated with the relational 
+model.
+—is a formal, non -user-friendly languages.
+—work on one or more relations to define another relation 
+without changing the original relations.
+—both the operands and the results are relations, and so the 
+output from one operation can become the input to another 
+operation. 
+—illustrates the basic operations required of any DML.
+2
+
+Relational Algebra Operations
+❑5 basic operations in relational algebra: 
+1.Selection, 
+2.Projection, 
+3.Cartesian Product, 
+4.Union, 
+5.Set Difference .
+❑In addition, Join, Intersection , and Division operations can 
+be expressed in terms of the five basic operations.
+❑These perform most of the data retrieval operations when 
+needed.
+3
+
+Relational Algebra Operations -Pictorial 
+representation
+4
+Refer: Fig 5.1, Page: 161
+
+Relational Algebra Operations -
+Pictorial representation (contd…)
+5
+Refer: Fig 5.1, Page: 161
+
+Relational Algebra -notations used
+6
+
+Selection (or Restriction)
+◼predicate (R)
+❑Works on a single relation R and defines a relation that 
+contains only those tuples (rows) of R that satisfy the specified 
+condition ( predicate ).
+Eg:List all staff with a salary greater than £10,000.
+salary > 10000 (Staff)
+Refer: Fig 5.2, Page: 162
+7
+
+Projection
+◼col1, . . . , coln(R)
+❑Works on a single relation R and defines a relation that 
+contains a vertical subset of R, extracting the values of 
+specified attributes and eliminating duplicates.
+Eg:Produce a list of salaries for all staff, showing only  
+staffNo , fName , lName , and salary details.
+staffNo , fName , lName , salary (Staff)
+Refer: Fig 5.3, Page: 162
+8
+
+Union
+◼R S
+❑Union of two relations R and S defines a relation that contains all the 
+tuples of R, or S, or both R and S, duplicate tuples being eliminated. 
+❑R and S must be union -compatible.
+◼If R and S have Iand Jtuples, respectively, union is obtained by 
+concatenating them into one relation with a maximum of ( I+ J) tuples .
+Eg:List all cities where there is either a branch office or a 
+property for rent.
+city(Branch) city(PropertyForRent )
+Refer: Fig 5.4, Page: 163
+9
+
+Set Difference/Minus
+◼R –S
+❑Defines a relation consisting of the tuples that are in relation 
+R, but not in S. 
+❑R and S must be union -compatible.
+Eg:List all cities where there is a branch office but no properties 
+for rent.
+city(Branch) –city(PropertyForRent )
+Refer: Fig 5.5, Page: 163
+10
+
+Intersection
+◼R S
+❑Defines a relation consisting of the set of all tuples that are in 
+both R and S. 
+❑R and S must be union -compatible.
+◼Expressed using basic operations :
+R S = R –(R –S)
+Eg:List all cities where there is both a branch office and at least one 
+property for rent.
+city(Branch) city(PropertyForRent )
+Refer: Fig 5.6, Page: 164
+11
+
+Cartesian product
+◼R X S
+❑Defines a relation that is the concatenation of every tuple of 
+relation R with every tuple of relation S.
+Eg:List the names and comments of all clients who have viewed a 
+property for rent.
+Step 1:
+(clientNo , fName , lName (Client)) 
+X (clientNo , propertyNo,comment (Viewing))
+Refer: Fig 5.7, Page: 165
+12
+
+Example -Cartesian Product and Selection 
+(contd..)
+◼Step 2: Use selection operation to extract those tuples where 
+Client.clientNo = Viewing.clientNo .
+Client .clientN o =viewing. clientN o((clientNo ,fName,l Name(Client )) 
+(clientN o,propertyN o,comment (Viewing)))
+▪Cartesian product andSelection canbereduced toasingle operation
+called aJoin.Refer: Fig 5.8, Page: 165
+13
+
+Join Operations
+◼Join is a derivative of Cartesian product.
+◼Equivalent to performing a Selection, using join predicate as 
+selection formula, over Cartesian product of the two operand 
+relations. 
+◼Various forms of join operation
+❑Theta join
+❑Equijoin (a particular type of Theta join)
+❑Natural join
+❑Outer join
+❑Semijoin
+14
+Theta join(-join)
+◼R       FS
+❑Defines a relation that contains tuples satisfying the 
+predicate Ffrom the Cartesian product of R and S. 
+❑The predicate Fis of the form R.a iS.biwhere may be 
+one of the comparison operators (<, , >, , =, ).
+◼We can rewrite Theta join using basic Selection and Cartesian 
+product operations.
+R      FS = F(R S)
+◼If predicate Fcontains only equality (=), the term Equijoin is 
+used. 
+15
+Example -Equijoin
+◼List the names and comments of all clients who 
+have viewed a property for rent.
+(clientNo,fName,lName (Client))      Client.clientNo = Viewing.clientNo
+(clientNo,propertyNo,comment (Viewing))
+Refer: Fig 5.8, Page: 165
+16
+Natural Join
+◼R     S
+❑An Equijoin of the two relations R and S over all common 
+attributes x. One occurrence of each common attribute is 
+eliminated from the result.
+Eg: List the names and comments of all clients who have viewed a 
+property for rent.
+(clientNo,fName,lName (Client))      (clientNo,propertyNo,comment (Viewing))
+Refer: Fig 5.9, Page: 167
+17
+
+Outer join
+◼To display rows in the result that do not have matching values in 
+the join column, use Outer join .
+◼Left (natural) Outer join as it keeps every tuple in the left -hand 
+relation in the result. Similarly, there is a Right Outer join that 
+keeps every tuple in the right -hand relation in the result. There is 
+also a Full Outer join that keeps all tuples in both relations, 
+padding tuples with nulls when no matching tuples are found.
+◼They can be categorized into left,right, and fullouter joins. Join 
+types:
+❑JOIN = "normal" join = inner join. R ⋈S
+❑LEFT OUTER JOIN = left outer join. R       S
+❑RIGHT OUTER JOIN = right outer join. R       S
+❑FULL OUTER JOIN = full outer join. R       S
+18
+Example -Left Outer join
+◼Produce a status report on property viewings.
+propertyNo,street,city (PropertyForRent )        Viewing
+Refer: Fig 5.10, Page: 168
+19
+
+Example -Left Outer join
+20
+
+Example -Right Outer join
+21
+◼Includes those rows offirst (left) table
+unmatched with rows from second
+(right) table
+◼Right Outer joinincludes those rows of
+second (right) table that areunmatched
+with rows from first(left) table.
+◼Columns from second table arefilled
+with NULLs .
+
+Example : Full Outer Join
+22
+◼Includes rows that areunmatched in
+both tables
+◼Unmatched columns arefilled with
+NULLs
+
+Semijoin
+◼R     FS
+❑Defines a relation that contains the tuples of R that participate in 
+the join of R with S.
+❑Can rewrite Semijoin using Projection and Join:
+R     FS= A(R      FS)
+Eg:List complete details of all staff who work at the branch in 
+Glasgow.
+Staff     Staff.brancNo = Branch.branchNo and branch.city = ‘Glasgow’ Branch
+Refer: Fig 5.11, Page: 169
+23
+Division
+◼R S
+❑Defines a relation over the attributes C that consists of set of tuples
+from R that match combination of everytuple in S.
+Eg: Identify all clients who have viewed all properties with three 
+rooms.
+(clientNo,propertyNo (Viewing)) (propertyNo (rooms = 3 (PropertyForRent )))
+Refer: Fig 5.12, Page: 170
+24
+Use the schema diagram for the COMPANY relational database to 
+answer the questions that follow:
+Employee ( fname , minit , lname , ssn,bdate , address, sex, salary, superssn , dno)
+Department ( dname , dnumber , mgrssn , mgrstartdate )
+Dept_locations (dnumber , dlocation )
+Project ( pname , pnumber , plocation , dnum )
+Works_On (essn, pno, hours)
+Dependent ( essn, dependent_name , sex, bdate , relationship)
+1.Find employees whose department is 4. Ans: dno=4(Employee)
+2.Find employees whose salary is greater than $30000.                          
+Ans: salary>30000 (Employee)
+3.Find employees who either work in department 4 and make over $25000 
+per year, or work in department 5 and make over $30000.                   
+Ans: (dno=4salary>25000) (dno=5salary>30000) Employee
+25
+4.List each employee’s first and last name and salary.                            
+Ans: Пfname , lname , salary(Employee)
+5.List the first name, last name and salary of all employees who work in 
+department number 5. Ans: Пfname , lname , salary σ(dno= 5)(Employee)
+6.List the name and address of all employees who work for the ‘Research’ 
+department. Ans: Пfname , lname , address (σdname = ‘Research’ (Department )      
+dnumber = dno(Employee)) 
+7.For every project located in ‘Stafford’, list the project number, the 
+controlling department number, and the department manager’s last 
+name, address and birth date. . Ans: Пpnumber , dnum , lname , address, bdate(σplocation = 
+‘Stafford’ (Project)      dnum = dnumber (Department ) mgrssn = ssn(Employee ))
+26
+27Computing a Join (Advanced SQL Joins)
+Procedure forgenerating results ofajoinare:
+1.Form Cartesian product ofthetables named inFROM clause .
+2.Ifthere isaWHERE clause, apply thesearch condition toeach row
+oftheproduct table, retaining those rows thatsatisfy thecondition .
+3.Foreach remaining row, determine value ofeach item inSELECT list
+toproduce asingle rowinresult table.
+4.IfDISTINCT hasbeen specified, eliminate anyduplicate rows from
+theresult table.
+5.Ifthere isanORDER BYclause, sortresult table asrequired .
+
+The End Of Lecture 7
+Thank You
+28

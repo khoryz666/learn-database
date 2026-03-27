@@ -1,0 +1,342 @@
+UCCD2303 DATABASE TECHNOLOGY / 
+UCCD2203 DATABASE SYSTEMS
+Practical 7: 
+Introduction to the Tools in the 
+NoSQL Database –Part 1
+By MrCheang Kah Wai, Alvin
+
+Practical 7 Task: 
+Introduction to the Tools in the NoSQL Database –Part 1
+❖Introduction to NoSQL Database and MongoDB
+❖Installing NoSQL Database –MongoDB
+❖Introduction to Mongo Shell
+❖Import CSV data with mongoimport.exe
+❖Import CSV data manually with MongoDB 
+Compass, a MongoDB Graphical User Interface 
+(GUI)
+❖View data or collection of documents by using 
+MongoDB Compass
+|-UCCD2303/UCCD2203 -|
+ 2
+Introduction to NoSQL 
+Database and MongoDB
+
+NoSQL Database
+◼Abroad array ofnonrelational database technologies
+that have developed toaddress the challenges
+represented byBigData .
+◼Also known as‘Not OnlySQL’ .
+◼Non-tabular, and data isstored differently than
+relational tables .
+◼NoSQL provide flexible schemas andscale easily with
+large amounts ofdataandhigh userloads .
+◼Example :MongoDB, CouchDB, CouchBase ,
+Cassandra, HBase, Redis, Riak,Neo4J
+4 |-UCCD2303/UCCD2203 -|
+NoSQL Database
+◼Types ofNoSQL Database
+5 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼MongoDB isanopen -source document database,
+which alsooffers commercial support .
+◼Asthename MongoDB -derived from theword
+“humongous” -indicates, itsmain goal istohandle
+huge amounts ofdata.
+◼While MongoDB isimplemented inC++, ituses
+JavaScript asaquerying language .
+6 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Anon-relational database forapplications .
+◼Aform ofstorage .
+◼Highly available, scalable, fault-tolerant, agile and
+flexible .
+◼Instead ofstoring thetraditional tables and rows of
+data inadata frame, itstores JSON/dictionary -like
+objects .
+◼Powerful and flexible asusers canstore documents
+within documents andtheirs documents donotrequire
+afixed orconsistent format .
+7 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Advantages :
+❑Schema less−Number offields, content and size ofthe
+document candiffer from onedocument toanother .
+❑Structure ofasingle object isclear.
+❑Nocomplex joins.
+❑Deep query -ability .
+◼MongoDB supports dynamic queries ondocuments using adocument -
+based query language that's nearly aspowerful asSQL.
+❑Tuning .
+❑Ease ofscale-out−MongoDB iseasytoscale.
+8 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Advantages (continued) :
+❑Conversion/mapping ofapplication objects todatabase
+objects notneeded .
+❑Uses internal memory forstoring the(windowed) working set,
+enabling faster access ofdata.
+9 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Why useMongoDB?
+❑Document Oriented Storage−Data isstored intheform of
+JSON style documents .
+❑Index onanyattribute
+❑Replication andhigh availability
+❑Auto -sharding –(process ofstoring data records across
+multiple machines) .
+❑Rich queries
+❑Fastin-place updates
+❑Professional support byMongoDB
+10 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Where touseMongoDB?
+❑BigData
+❑Content Management andDelivery
+❑Mobile andSocial Infrastructure
+❑User Data Management
+❑Data Hub
+11 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼MongoDB works onconcept ofcollection and document .
+◼Database isaphysical container forcollections .Each
+database getsitsown setoffiles onthefilesystem .A
+single MongoDB server typically has multiple
+databases .
+12 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Collection isagroup ofMongoDB documents .
+❑Itistheequivalent ofanRDBMS table.Acollection exists
+within asingle database .
+❑Collections donotenforce aschema .
+❑Documents within acollection canhave different fields .
+❑Typically, alldocuments inacollection areofsimilar or
+related purpose .
+13 |-UCCD2303/UCCD2203 -|
+MongoDB
+◼Document isasetofkey-value pairs.
+❑Documents have dynamic schema .
+❑Dynamic schema means that documents inthe same
+collection donotneed tohave thesame setoffields or
+structure, andcommon fields inacollection's documents may
+hold different types ofdata.
+14 |-UCCD2303/UCCD2203 -|
+MongoDB
+15 |-UCCD2303/UCCD2203 -|
+
+MongoDB
+Sample Document
+16 |-UCCD2303/UCCD2203 -|
+
+MongoDB
+◼MongoDB ID
+❑_idisa12bytes hexadecimal number which assures the
+uniqueness ofevery document .
+❑You canprovide _idwhile inserting thedocument .Ifyou
+don’t provide, then MongoDB provides aunique idforevery
+document .
+❑These 12bytes first4bytes forthecurrent timestamp, next 3
+bytes formachine id,next 2bytes forprocess idofMongoDB
+server andremaining 3bytes aresimple incremental VALUE .
+17 |-UCCD2303/UCCD2203 -|
+Installing NoSQL 
+Database -MongoDB
+
+Installing MongoDB
+◼MongoDB for Windows 64 -bit-runs only on Windows Server 2008 
+R2, Windows 7 64 -bit, and newer versions of Windows. This build 
+takes advantage of recent enhancements to the Windows Platform 
+and cannot operate on older versions of Windows.
+◼MongoDB for Windows 32 -bit-runs on any 32 -bit version of 
+Windows newer than Windows Vista. 32 -bit versions of MongoDB 
+are only intended for older systems and for use in testing and 
+development systems.((https://www.mongodb.org/dl/win32/i386)
+|-UCCD2303/UCCD2203 -| 19
+
+Installing MongoDB
+◼Files for installation:
+❑mongodb -windows -x86_64 -4.4.6 -signed.exe
+❑mongodb -database -tools -windows -x86_64 -100.3.1.zip
+|-UCCD2303/UCCD2203 -| 20
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 21
+◼Double click mongodb -windows -x86_64 -4.4.6 -signed.exe
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 22◼Check accept agreement.
+◼Click ‘Next’ button.
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 23◼Choose Setup Type as "Complete" .
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 24◼Follow the wizard.
+◼Check on “Install MongoDB Compass”.
+◼Click ‘Next’ button until ‘Finish’.
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 25◼After installation, you will find MongoDB server is available in C drive.
+
+Installing MongoDB
+|-UCCD2303/UCCD2203 -| 26◼MongoDBCompass can be found in Windows Start →Program files →MongoDB 
+Inc →MongoDBCompass
+
+Introduction to Mongo 
+Shell
+
+Introduction to Mongo Shell
+◼Mongo is an interactive JavaScript shell interface to 
+MongoDB, which provides a powerful interface for 
+system administrators as well as a way for developers to 
+test queries and operations directly with the database.
+◼Mongo also provides a fully functional JavaScript 
+environment for use with a MongoDB.
+◼The mongo shell is included as part of the MongoDB 
+server installation. If you have already installed the 
+server, the mongo shell is installed to the same location 
+as the server binary.
+|-UCCD2303/UCCD2203 -| 28
+
+Mongo Shell
+|-UCCD2303/UCCD2203 -| 29◼Open Windows explorer and navigate to →C:\Program 
+Files \MongoDB \Server \4.4\bin
+◼To initiate the MongoDB server:
+◼Double click on mongod.exe
+◼To open the client to run the MongoDB commands:
+◼Double-click on mongo.exe
+◼Type this example:
+var myCourse='Database Technology';
+printjson(myCourse);
+
+Mongo Shell
+|-UCCD2303/UCCD2203 -| 30
+
+Mongo Shell
+|-UCCD2303/UCCD2203 -| 31◼Alternatively, using Command Prompt:
+❑Type mongod to start the MongoDB Server
+◼Open another Command Prompt:
+❑Type mongo to open the client to run the MongoDB commands
+
+Import CSV data with 
+mongoimport.exe
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 33◼Unzip mongodb -database -tools -windows -
+x86_64 -100.3.1.zip into a folder.
+◼Copy all the files from mongodb -database -
+tools -windows -x86_64 -100.3.1 \bin into 
+C:\Program Files \MongoDB \Server \4.4\bin
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 34◼Copy and paste “Employee.csv” to C: \db 
+*Note: create a folder called ‘ db’ to store all your databases
+❑Employee.csv consists of Employee -their first and last name, age, 
+email, education, etc.
+❑In addition, it is a flat data set which is perfect for MongoDB. Primary 
+Key of id has been removed as MongoDB’s default functionality of 
+giving each document (row) a unique id of its own.
+◼To view the data files created by MongoDB -C:\Program 
+Files \MongoDB \Server \4.4\data
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 35◼Open Command Prompt by typing ‘cmd’
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 36◼Type:
+cd C: \Program Files \MongoDB \Server \4.4\bin
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 37◼Make sure mongoimport.exe is available in C: \Program Files \MongoDB \Server \4.4\bin
+◼Type:
+mongoimport --db EmployeeD --collection EmployeeC --type csv --headerline --file 
+d:\Employee.csv 
+◼Syntax:
+mongoimport –db database_name –collection collection_name –type csv –file 
+file_location
+
+Import CSV data with mongoimport.exe
+|-UCCD2303/UCCD2203 -| 38◼mongoimport is the command to import data 
+◼--type csv indicates that this is a CSV file
+◼--headerline indicates that the file row of your CSV is the header
+◼--db EmployeeD indicates that the database we are writing to is 
+EmployeeD
+◼--collection indicates that the collection we are writing to is EmployeeC
+◼--host "<STRING>" indicates the route to our database. Replace it with 
+the string you copied
+◼--username analytics --password analytics -pw indicates your user 
+account. Replace with your username and password
+◼--file Employee.csv indicates the file name of your data. 
+
+Import CSV data manually 
+with MongoDB Compass, 
+a MongoDB GUI
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 40◼In MongoDB Compass, connect to localhost.
+Hostname: localhost
+Port: 27017
+◼At the dashboard, click the “Create Database” button.
+◼Specify the Database Name as EmpD
+◼Specify the Collection Name as EmpC
+◼Click the “Create Database” button
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 41◼Database Name: EmpD
+◼Collection Name: EmpC
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 42
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 43◼Click “Import Data” button.
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 44◼Click “BROWSE” button to locate Employee.csv
+◼Click “CSV”
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 45◼Click “IMPORT” button at the bottom of the screen.
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 46◼Click “DONE” button.
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 47◼To view the data/document, click “EmpC” at the left panel.
+
+Import CSV data manually with 
+MongoDB Compass, a MongoDB GUI
+|-UCCD2303/UCCD2203 -| 48◼To quit MongoDB, select “Disconnect”.
+
+View data or collection of 
+documents by using 
+MongoDB Compass
+
+View data or collection of documents by 
+using MongoDB Compass
+|-UCCD2303/UCCD2203 -| 50◼Open MongoDB Compass Community that was installed earlier.
+◼Connect to the MongoDB Server.
+
+View data or collection of documents by 
+using MongoDB Compass
+|-UCCD2303/UCCD2203 -| 51◼After successful import of CSV, EmployeeC appears in MongoDB 
+Compass.
+
+View data or collection of documents by 
+using MongoDB Compass
+|-UCCD2303/UCCD2203 -| 52◼List View of data
+
+View data or collection of documents by 
+using MongoDB Compass
+|-UCCD2303/UCCD2203 -| 53◼Table View of data
+
+End of  Practical 7
+|-UCCD2303/UCCD2203 -|
+ 54

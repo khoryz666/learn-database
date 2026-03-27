@@ -1,0 +1,362 @@
+UCCD2203 DATABASE SYSTEMS
+Lecture 8
+By 
+Mr. Cheang Kah Wai, Alvin
+Department of Information Systems, FICT
+Query Processing
+❑The activities involved in parsing, validating, 
+optimizing, and executing a query.
+❑The aim of query processing are to transform a 
+query written in a high -level language, typically 
+SQL, into a correct and efficient execution 
+strategy expressed in a low -level language 
+(implementing the relational algebra), and to 
+execute the strategy to retrieve the required data.
+❑An important aspect of query processing is query 
+optimization .
+
+Query Optimization
+❑The activity of choosing an efficient 
+execution (minimum resource usage) 
+strategy for processing a query.
+❑The aim of query optimization is to choose 
+the one that minimizes resource usage.
+
+Example: Different processing Strategies
+Find allManagers who work ataLondon branch .
+SELECT *
+FROM Staff s,Branch b
+WHERE s.branchNo =b.branchNo AND
+(s.position =‘Manager’ AND b.city =
+‘London’) ;
+
+◼Three equivalent RAqueries are:
+1)( p o s i t i o n = ' M a n a g e r ' )  ( c i t y = ' L o n d o n ' )  
+(S t a f f . b r a n c h N o =B r a n c h . b r a n c h N o ) ( S t a f f  ×B r a n c h )  
+2)( p o s i t i o n = ' M a n a g e r ' )  ( c i t y = ' L o n d o n ' )                                              
+( S t a f f  ⋈S t a f f . b r a n c h N o =B r a n c h . b r a n c h N o Branch)
+3)(p o s i t i o n = ' M a n a g e r ' ( S t a f f ) )  ⋈
+S t a f f . b r a n c h N o =B r a n c h . b r a n c h N o (city='London‘
+(Branch))Example: Different processing Strategies
+
+◼Assume:
+❑1000 tuples in Staff; 50 tuples in Branch;
+❑50 Managers; 5 London branches;
+❑no indexes or sort keys;
+❑results of any intermediate operations stored on 
+disk;
+❑cost of the final write is ignored;
+❑tuples are accessed one at a time.Example: Different processing Strategies
+
+Example :Cost Comparison
+◼Cost (in disk accesses) are:
+1)(1000 + 50) + 2*(1000 * 50) = 101 050 
+2)2*1000 + (1000 + 50) = 3 050 
+3)1000 + 2*50 + 5 + (50 + 5) = 1160 
+◼Cartesian product and join operations
+much more expensive than selection, and
+third option significantly reduces size of
+relations being joined together .
+
+Phases ofQuery Processing (QP)
+◼QPhasfour main phases :
+❑Decomposition (consisting ofparsing and
+validation),
+❑Optimization,
+❑Code generation, and
+❑Execution .
+
+Phases of Query Processing
+
+Query Decomposition
+The aims are to transform a high level query to a 
+relational algebra query and to check whether the query 
+is syntactically and semantically correct.
+SELECT staffNumber
+FROM Staff WHERE position >10;
+This query will be rejected because:
+❑attribute  staffnumber is not defined for Staff relation. (should be 
+staffNo )
+❑In the WHERE clause, the comparison “>10” is incompatible with 
+the data type position, which is a Varchar string.
+
+Relational Algebra Tree (RAT)
+◼A left node is created for each base relation 
+in the query.
+◼A nonleaf node is created for each 
+intermediate relation produced by a relational 
+algebra operation.
+◼The root of the tree represents the result of 
+the query.
+◼The sequence of the operations is directed 
+from leaves to the root.
+
+Example :Relational Algebra Tree (RAT)
+
+Query Optimization
+◼The goal of  the query optimizer is to find a reasonably 
+efficient strategy for executing the query using the access 
+routines.
+◼Optimization typically takes one of  two forms: Heuristic 
+Optimization orCost Based Optimization 
+❑Heuristic Optimization , the query execution is refined based 
+onheuristic rules for reordering the individual operations.
+❑Cost Based Optimization , the overall cost of  executing the 
+query is systematically reduced by estimating the costs of  
+executing several different execution plans.
+
+Transformation rules for RA Operations
+1) Conjunctive selects can cascade into individual selects,
+2) Commutativity of Selection Operations,
+3) In a sequence of Projection operations, only the last in the sequence is 
+required,
+4) Commutativity of Selection and Projection,
+5) Commutativity of Theta join (and Cartesian product),
+6) Commutativity of Selection and Theta join (or Cartesian product),
+7) Commutativity of Projection and Theta join (or Cartesian product),
+8) Commutativity of Union and Intersection (but not set difference),
+9) Commutativity of Selection and set operations (Union, Intersection, and 
+Set difference),
+10) Commutativity of Projection and Union,
+11) Associativity of Union and Intersection (but not Set difference),
+12) Associativity of Theta join (and Cartesian product).
+Transformation Rules forRAOperations
+1)Conjunctive Selection operations cancascade into
+individual Selection operations (and viceversa) .
+pqr(R) = p(q(r(R)))
+Sometimes referred toascascade ofSelection .
+For example:
+branchNo =' B003'  salary>15000 (Sta f f ) = 
+branchNo =' B003' (salary>15000 (S ta f f) ) 
+
+2)Commutativity ofSelection operations :
+p(q(R)) = q(p(R))
+Forexample :
+branchNo ='B003' (salary>15000 (Staff)) =         
+salary>15000 (branchNo ='B003' (Staff))Transformation Rules forRAOperations
+
+3)Inasequence ofProjection operations,
+only thelast inthesequence isrequired
+(others canbeomitted) .
+LM… N(R) = L(R)
+Forexample :
+lNamebranchNo , FName (Staff) = lName
+(Staff)Transformation Rules forRAOperations
+
+4)Commutativity ofSelection andProjection :
+Ifpredicate pinvolves only attributes inprojection list,then theSelection
+andProjection operations commute :
+Ai, …, Am (p(R)) = p(Ai, …, Am (R)) 
+where p{A1, A2, …, Am}
+For example:
+fName , lName (lName ='Beech' (Staff)) = 
+lName ='Beech' (fName,lName (Staff))Transformation Rules forRAOperations
+
+5)Commutativity ofTheta join (and Cartesian
+product) :
+R ⋈pS = S ⋈pR
+R ×S = S ×R
+Rule alsoapplies toEquijoin andNatural join.For
+example :
+Staff  ⋈Staff.branchNo = Branch.branchNo Branch = 
+Branch ⋈Staff.branchNo = Branch.branchNo StaffTransformation Rules forRAOperations
+
+6)Commutativity ofSelection and Theta join (or
+Cartesian product) :
+If selection predicate involves only attributes of one 
+of join relations, Selection and Join (or Cartesian 
+product) operations commute:
+p(R ⋈rS) = (p(R)) ⋈rS
+p(R ×S) = (p(R)) ×S
+where p{A1, A2, …, An}Transformation Rules forRAOperations
+
+Alternatively, if the selection predicate is a 
+conjunctive predicate of the form (p q), 
+where p only involves attributes of R, and q 
+only attributes of S, Selection and Theta 
+join operations commute as:
+p q(R ⋈rS) = (p(R)) ⋈r(q(S))
+p q(R ×S) = (p(R)) ×(q(S))Transformation Rules forRAOperations
+
+Forexample :
+position = 'Manager' city = 'London' (Staff ⋈
+Staff.branchNo = Branch.branchNo Branch) = 
+(position = 'Manager' (Staff)) ⋈Staff.branchNo = 
+Branch.branchNo (city='London' (Branch))Transformation Rules forRAOperations
+
+7)Commutativity ofProjection and Theta join (or
+Cartesian product) :
+Ifprojection listisofform L=L1L2,where L1has
+attributes ofR,andL2hasattributes ofS,provided thejoin
+condition contains only attributes ofL,theProjection and
+Theta joinoperations commute as:
+L1L2(R ⋈rS) = (L1(R)) ⋈r(L2(S))Transformation Rules forRAOperations
+Forexample :
+position,city,branchNo (Staff⋈Staff.branchNo =Branch .branchNo Branch) =
+(position,branchNo (Staff))⋈Staff.branchNo =Branch .branchNo (city,branchNo (Branch))
+Ifthejoincondition contains additional attributes notinL,
+sayattributes (M=M1M2where M1hasattributes ofR,
+andM2hasattributes ofS),then afinal projection operation
+isrequired :
+L1L2(R ⋈rS) =  L1L2( (L1M1(R)) ⋈r
+(L2M2(S)))Transformation Rules forRAOperations
+Forexample :
+position, city(Staff⋈Staff.branchNo =Branch .branchNo Branch) =
+position, city ((position, branchNo (Staff)) ⋈
+Staff.branchNo = Branch.branchNo ( city, branchNo (Branch)))
+8)Commutativity of Union and 
+Intersection (but not set difference):
+R S = S R
+R S = S RTransformation Rules forRAOperations
+
+9)Commutativity ofSelection and set
+operations (Union, Intersection, and
+Setdifference) :
+p(R S) = p(S) p(R)
+p(R S) = p(S) p(R)
+p(R —S) = p(S) —p(R)Transformation Rules forRAOperations
+
+10)Commutativity ofProjection andUnion :
+L(R S) = L(S) L(R)
+11)Associativity ofUnion and Intersection
+(but notSetdifference) :
+(R S) T = S (R T)
+(R S) T = S (R T)Transformation Rules forRAOperations
+
+12)Associativity of Theta join (and Cartesian product):
+◼Cartesian product and Natural join are always
+associative :
+(R⋈S) ⋈T = R ⋈(S ⋈T)
+(R ×S) ×T = R ×(S ×T)
+◼Ifjoin condition qinvolves attributes only from S
+andT,then Theta joinisassociative :
+(R⋈p S) ⋈q rT = R ⋈p r (S ⋈q T)Transformation Rules forRAOperations
+
+Forexample :
+(Staff ⋈Staff.staffNo = PropertyForRent.staffNo
+PropertyForRent )
+⋈ownerNo = Owner.ownerNo staff.lName = Owner.lName Owner 
+= 
+Staff ⋈staff.staffNo = PropertyForRent.staffNo staff.lName = lName
+(PropertyForRent ⋈ownerNo Owner)Transformation Rules forRAOperations
+
+Example: Use of Transformation Rules
+Forprospective renters offlats, findproperties thatmatch
+requirements andowned byCO93.
+SELECT p.propertyNo ,p.street
+FROM Client c,Viewing v,PropertyForRent p
+WHERE c.prefType =‘Flat’ AND
+c.clientNo =v.clientNo AND
+v.propertyNo =p.propertyNo AND
+c.maxRent >=p.rentAND
+c.prefType =p.type AND
+p.ownerNo =‘CO93’;
+
+These transformations can be used in various combinations to 
+optimize queries. Some general steps follow:
+1.Using rule 1, break up conjunctive selection conditions and chain them 
+together.
+2.Using the commutativity rules, move the selection operations as far 
+down the tree as possible.
+3.Using the associativity rules, rearrange the leaf nodes so that the most 
+restrictive selection conditions are executed first. For example, an 
+equality condition is likely more restrictive than an inequality condition 
+(range query).
+4.Combine cartesian product operations with associated selection 
+conditions to form a single Join operation.
+5.Using the commutativity of Projection rules, move the projection 
+operations down the tree to reduce the sizes of intermediate result sets.
+6.Finally, identify subtrees that can be executed using a single efficient 
+access method.
+
+Rules that tend to reduce the size of 
+intermediate tables
+◼Perform restriction as early as possible.
+◼Rearrange leaf nodes so that leaf with 
+the most restriction operates first.
+◼Perform projection as early a possible.
+
+select pnumber , dnum , lname from project, 
+department, employee where dnum =dnumber and 
+mgrssn =ssnand plocation = 'stafford ';
+Example 1: Using Heuristics in Query Optimization
+Example 1: Using Heuristics in Query Optimization
+1. Original Query Tree
+select pnumber , dnum , 
+lname
+from project, 
+department, employee 
+where dnum =dnumber
+and mgrssn =ssn
+and plocation = 
+'stafford ';
+Example 1: Using Heuristics in Query Optimization
+2. Use Rule 1 to Break up Cascading Selections
+
+Example 1: Using Heuristics in Query Optimization
+3. Commute Selection with Cross Product
+
+Example 1: Using Heuristics in Query Optimization
+4. Combine Cross Product and Selection to form Joins
+
+Example 2: Using Heuristics in Query Optimization
+❑For every project located in ‘Stafford’, retrieve the project 
+number, the controlling department number and the 
+department manager’s last name, address and birthdate.
+◼Relation algebra:
+PNUMBER, DNUM, LNAME, ADDRESS, BDATE
+(((PLOCATION=‘STAFFORD’ (PROJECT)) 
+⋈DNUM=DNUMBER (DEPARTMENT)) ⋈MGRSSN=SSN(EMPLOYEE))
+◼SQL query:
+SELECT  P.NUMBER, P.DNUM, E.LNAME,E.ADDRESS, E.BDATE
+FROM PROJECT AS P,DEPARTMENT AS D, EMPLOYEE AS E
+WHERE  P.DNUM=D.DNUMBER AND 
+D.MGRSSN=E.SSN AND
+P.PLOCATION=‘STAFFORD’;
+
+Example 2: Using Heuristics in Query Optimization
+Example 3: Using Heuristics in Query Optimization
+Find the last names of employees born after 1957 who work on a 
+project named ‘Aquarius’
+SELECT LNAME
+FROM EMPLOYEE, WORKS_ON, PROJECT
+WHERE  PNAME = ‘AQUARIUS’ AND PNUMBER=PNO 
+AND ESSN=SSN AND BDATE > ‘1957 -12-31’;
+
+(b) Moving SELECT operations down the query tree
+Example 3: Using Heuristics in Query Optimization
+
+Example 3: Using Heuristics in Query Optimization
+(c) Apply most restrictive SELECT operation first
+
+Example 3: Using Heuristics in Query Optimization
+(d) Replace Cartesian Product and Select with Join 
+operations
+
+Example 3: Using Heuristics in Query Optimization
+(e) Moving PROJECT operations down the query tree
+
+Code Generation
+❑Once the query optimizer has determined the 
+execution plan (the specific ordering of  access 
+routines), the code generator writes out the 
+actual access routines to be executed.
+❑With an interactive session, the query code is 
+interpreted and passed directly to the runtime 
+database processor for execution.
+❑It is also possible to compile the access routines and 
+store them for later execution.
+
+Execution
+◼At this point, the query has been scanned, 
+parsed, planned and (possibly) compiled.
+◼The runtime database processor then 
+executes the access routines against the 
+database.
+◼The results are returned to the application 
+that made the query in the first place.
+◼Any runtime errors are also returned.
+
+The End Of Lecture 8
+Thank You
+

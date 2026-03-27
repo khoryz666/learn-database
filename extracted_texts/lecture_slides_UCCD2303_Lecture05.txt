@@ -1,0 +1,430 @@
+UCCD2203 DATABASE SYSTEMS
+Lecture 5
+By 
+Mr. Cheang Kah Wai, Alvin
+Department of Information Systems, FICT
+Lecture 5 Topic: Transaction 
+Management -Part 1
+◼Introduction to Transaction Management 
+Concepts and Theory
+◼Concurrency Control Techniques
+
+Transaction
+◼A transaction is a logical unit of work 
+on the database.
+◼It may be an entire program or a part 
+of a program, or a single SQL 
+statement, and it may involve any 
+number of operations on the database.
+Transaction Support
+◼Action, orseries ofactions (Read andWrite ),
+carried outbyuser orapplication, which
+accesses orchanges the contents of
+database .
+◼Transforms database from one consistent
+state toanother, although consistency may
+beviolated during transaction .
+
+Example -Transaction
+
+Transaction Support
+◼Canhave oneoftwooutcomes :
+❑Committed -transaction commits and database
+reaches anewconsistent state.
+❑Aborted -transaction aborts ,anddatabase must be
+restored toconsistent state before itstarted .
+◼Such atransaction isrolled backorundone .
+◼Committed transaction cannot beaborted .
+◼Aborted transaction isrolled back and can be
+restarted later.
+
+State Transition Diagram for Transaction
+Inaddition totheobvious states ofACTIVE ,COMMITTED
+andABORTED ,there areother twostates :
+◼PARTIALLY COMMITTED ,FAILED
+Properties ofTransactions
+Four basic Atomicity, Consistency, Isolation, andDurability
+(ACID) properties properties ofatransaction are:
+Atomicity 'All or nothing' property. 
+Consistency Must transform database from one 
+consistent state to another (data integrity) .
+Isolation Partial effects of incomplete transactions 
+should not be visible to other transactions.
+Durability Effects of a committed transaction are 
+permanent and must not be lost because 
+of  later failure.
+
+Concurrency Control
+◼Although two transactions may be correct in 
+themselves, interleaving of operations may 
+produce an incorrect result.
+◼Process of managing simultaneous operations 
+on the database without having them interfere 
+with one another.
+◼Prevents interference when two or more users 
+are accessing database simultaneousl y and at least 
+one is updating data.
+
+Need forConcurrency Control
+◼Three examples ofpotential problems caused by
+concurrency inmultiuser environments :
+❑Lost update problem
+❑Uncommitted dependency problem
+❑Inconsistent analysis problem
+◼Coordinates simultaneous transaction execution
+inmultiprocessing database
+◼Ensure serializability of transactions in
+multiuser database environment .
+
+Lost Update Problem
+◼Asuccessfully completed update operation by
+oneusercanbeoverridden byanother user.
+Lost Update Problem -example
+◼T1withdrawing $10from anaccount with
+balx,initially $100.
+◼T2depositing $100intosame account .
+◼Serially, final balance would be$190.
+◼Loss ofT2'supdate isavoided by
+preventing T1from reading balxuntil
+after update .
+Uncommitted Dependency (ordirty read) Problem
+◼This occurs when onetransaction isallowed to
+see the intermediate results of another
+transaction before ithascommitted .
+Uncommitted Dependency Problem
+◼T4updates balxto$200butitaborts ,
+sobalxshould beback atoriginal value of
+$100.
+◼T3has read new value ofbalx($200)
+anduses value asbasis of$10reduction,
+giving anew balance of$190,instead of
+$90.
+◼Problem isavoided bypreventing T3from reading
+balxuntil after T4commits oraborts .
+◼The two problems concentrated ontransactions
+that are updating the database and their
+interference maycorrupt thedatabase .
+◼However, transactions thatonly read thedatabase
+can also produce inaccurate results ifthey are
+allowed toread partial results ofincomplete
+transactions that aresimultaneously updating the
+database .
+The inconsistency analysis problemInconsistency analysis problem
+Inconsistent Analysis (fuzzy readornonrepeatable read)
+Problem
+◼Occurs when transaction reads several values but
+second transaction updates some ofthem during
+execution ofthefirst.
+Inconsistent Analysis Problem
+◼T6istotaling balances ofaccount x
+($100),account y($50),and account z
+($25).
+◼Meantime, T5hastransferred $10from
+balxtobalz,soT6now haswrong result
+($10toohigh) .
+◼Problem isavoided bypreventing T6from
+reading balxandbalzuntil after T5completed
+updates .
+Read/Write Conflict Scenarios:
+Conflicting Database Operations Matrix
+Serializability
+◼Objective ofaconcurrency control
+protocol istoschedule transactions in
+such awayastoavoid anyinterference .
+◼Could runtransactions serially ,butthis
+limits the degree ofconcurrency or
+parallelism insystem .
+◼Serializability identifies those executions
+oftransactions guaranteed toensure
+consistency .
+
+Serializability
+Schedule
+Asequence ofreads/writes bysetofconcurrent
+transactions that preserves the order ofthe
+operations ineach oftheindividual transactions
+Serial Schedule
+Schedule where operations ofeach transaction are
+executed consecutively without any interleaved
+operations from other transactions .
+◼Noguarantee that results ofallserial executions ofa
+given setoftransactions willbeidentical .
+
+Nonserial Schedule
+◼Schedule where operations from set of
+concurrent transactions areinterleaved .
+◼Objective ofserializability istofind nonserial
+schedules that allow transactions to
+execute concurrently without interfering with
+oneanother .
+◼Inother words, wewant tofind nonserial
+schedules that areequivalent tosome serial
+schedule .Such aschedule iscalled
+serializable .
+
+Serializability
+Inserializability ,ordering ofread/writes is
+important :
+(a) Iftwo transactions only read adata item,
+they donot conflict and order isnot
+important .
+(b)  If two transactions either read or write 
+completely separate data items , they do not 
+conflict and order is not important .
+(c)Ifone transaction writes adata item and
+another reads orwrites same data item ,
+order ofexecution isimportant .
+
+Conflict Serializability
+◼Conflict serializable schedule orders any
+conflicting operations insame way as
+some serial execution .
+◼Under constrained write rule (transaction
+updates adataitem based onitsoldvalue,
+which isfirstread bythetransaction), we
+canuseprecedence graph totest for
+serializability .
+
+Precedence Graph
+◼Create anode foreach transaction ;
+❑adirected edge T1→T2,ifT2reads thevalue
+ofanitem written byT1;
+❑adirected edge T1→T2,ifT2writes avalue
+intoanitem after ithasbeen read byT1.
+❑adirected edge T1→T2,ifT2writes avalue
+intoanitem after ithasbeen written byT1.
+◼Ifprecedence graph contains cycle, theschedule
+isnotconflict serializable .
+
+Example -Non-conflict serializable schedule
+◼T9istransferring 100from oneaccount
+with balance balxtoanother account with
+balance baly.
+◼T10isincreasing balance ofthese two
+accounts by10%.
+◼Precedence graph hasacycle and sois
+notserializable .
+
+Example -Non-conflict serializable schedule
+T9istransferring 100from oneaccount with balance balyto
+another account with balance balx.
+T10isincreasing balance ofthese twoaccounts by10%.
+
+Example -Non-conflict serializable schedule
+Precedence graph for
+Transactions T9and T10
+showing acycle, so
+schedule isnot conflict
+serializable .
+View Serializability
+◼Offers less stringent definition ofschedule
+equivalence than conflict serializability .
+◼Two schedules S1andS2areview equivalent ifthe
+following three conditions hold:
+❑Foreach data item x,ifTireads initial value ofxinS1,Ti
+must alsoread initial value ofxinS2.
+❑Foreach read onxbyTiinS1,ifvalue read byxis
+written byTj,Timust alsoread value ofxproduced byTj
+inS2.
+❑Foreach dataitem x,iflastwrite onxperformed byTiin
+S1,same transaction must perform final write onxinS2.
+
+View Serializability
+◼Schedule isview serializable ifitisview
+equivalent toaserial schedule .
+◼Every conflict serializable schedule is
+view serializable ,although converse isnot
+true.
+◼Itcanbeshown thatanyview serializable
+schedule that isnotconflict serializable
+contains oneormore blind writes .
+
+Example -View Serializable schedule
+Notconflict serializable
+Precedence graph for 
+view serializable
+schedule .
+Concurrency Control Techniques
+◼Two basic concurrency control techniques :
+❑Locking
+❑Timestamping
+◼Both are conservative ( pessimistic ) 
+approaches: delay transactions in case they 
+conflict with other transactions. 
+◼Optimistic methods assume conflict israre
+andonly check forconflicts atcommit .
+
+Locking
+Transaction uses locks todeny access toother
+transactions andsoprevent incorrect updates .
+◼Most widely used approach to ensure
+serializability .
+◼Generally, atransaction must claim ashared (read)
+orexclusive (write)lock onadata item before read
+orwrite .
+◼Lock prevents another transaction from modifying
+item oreven reading it,inthecaseofawrite lock.
+
+◼Two main lock modes:
+❑Binary locks
+❑Shared locks/Exclusive lock sLock Modes
+
+Locking -Basic Rules
+◼Iftransaction hasshared lock onitem,
+canread butnotupdate item.
+◼Iftransaction hasexclusive lock onitem,
+canboth read andupdate item .
+◼Reads cannot conflict, somore than one
+transaction can hold shared locks
+simultaneously onsame item .
+◼Exclusive lock gives transaction exclusive
+access tothatitem.
+
+Concurrency Control -with Locking Methods
+◼Lock guarantees current transaction exclusive 
+use of data item
+◼Acquires lock prior to access
+◼Lock released when transaction is completed 
+◼DBMS automatically initiates and enforces 
+locking procedures
+◼Managed by lock manager
+◼Lock granularity indicates level of lock use –
+database, table, page, row, or field lock levels
+
+Database -Level Locking Sequence
+
+Table -Level Lock 
+
+Example -Incorrect Locking Schedule
+◼Fortwotransactions above, aschedule using these
+rules is:
+S={write_lock (T9,balx),read(T9,balx),write(T9,
+balx),unlock(T9,balx),write_lock (T10,balx),
+read(T10,balx),write(T10,balx),unlock(T10,balx),
+write_lock (T10,baly),read(T10,baly),write(T10,
+baly),unlock(T10,baly),commit(T10),write_lock (T9,
+baly),read(T9,baly),write(T9,baly),unlock(T9,baly),
+commit(T9)}
+
+Example -Incorrect Locking Schedule
+◼Ifatstart, balx=100,baly=400,result should be:
+❑balx=220,baly=330,ifT9executes before T10;
+or
+❑balx=210,baly=340,ifT10executes before T9.
+◼However, result ofexecuting Sgives balx=220and
+baly=340.
+◼Sisnotaserializable schedule .
+→Does notguarantee serializability .
+
+Example -Incorrect Locking Schedule
+◼Problem isthattransactions release locks
+too soon ,resulting inloss oftotal
+isolation andatomicity .
+◼To guarantee serializability ,need an
+additional protocol concerning the
+positioning oflock andunlock operations
+inevery transaction .
+
+Two-Phase Locking (2PL)
+Transaction follows 2PLprotocol ifall
+locking operations precede first unlock
+operation inthetransaction .
+◼Two phases fortransaction :
+❑Growing phase -acquires alllocks but
+cannot release anylocks .
+❑Shrinking phase -releases locks but
+cannot acquire anynewlocks .
+
+Lost Update Problem
+
+Preventing Lost Update Problem using 2PL
+
+Deadlock
+Animpasse that may result when two (ormore)
+transactions areeach waiting forlocks held bythe
+other tobereleased .
+
+Deadlock
+◼Only onewaytobreak deadlock :abort one
+ormore ofthetransactions .
+◼Deadlock should betransparent touser, so
+DBMS should restart transaction(s) .
+◼Three general techniques for handling
+deadlock :
+❑Timeouts .
+❑Deadlock prevention .
+❑Deadlock detection andrecovery .
+
+Deadlock Prevention
+◼DBMS looks ahead tosee iftransaction
+would cause deadlock and never allows
+deadlock tooccur .
+◼Could order transactions using transaction
+timestamps :
+❑Wait-Die-only anolder transaction canwait for
+younger one, otherwise transaction isaborted
+(dies)and restarted with same timestamp .
+Eventually, itwill become the oldest active
+transaction andwillnotdie.
+
+Deadlock Prevention
+❑Wound -Wait -only ayounger
+transaction canwait foranolder one.
+Ifolder transaction requests lock held by
+younger one, younger one isaborted
+(wounded ).
+
+Deadlock Detection andRecovery
+◼DBMS allows deadlock tooccur but
+recognizes itandbreaks it.
+◼Usually handled byconstruction ofwait-for
+graph (WFG) showing transaction
+dependencies :
+❑Create anode foreach transaction .
+❑Create edge Ti->Tj,ifTiwaiting tolock
+item locked byTj.
+◼Deadlock exists ifand only ifWFG contains
+cycle .
+◼WFG iscreated atregular intervals .
+
+Example -Wait-For-Graph (WFG)
+
+Produce a wait -for-graph for the following transaction 
+scenario and determine whether deadlock exists. 
+•Create anode foreach transaction .
+•Create edge Ti->Tj,ifTiwaiting tolock item
+locked byTj.
+
+Timestamping
+◼Transactions ordered globally sothat
+older transactions ,transactions with
+smaller timestamps, getpriority inthe
+event ofconflict .
+◼Conflict isresolved byrolling back
+andrestarting transaction .
+◼Nolocks sonodeadlock .
+
+Timestamping
+Timestamp
+Aunique identifier created byDBMS
+thatindicates relative starting time ofa
+transaction .
+◼Can begenerated byusing system clock
+attime transaction started, orby
+incrementing alogical counter every time
+anewtransaction starts .
+
+Timestamping
+◼Read/write proceeds only iflastupdate onthat
+dataitemwascarried outbyanolder transaction .
+◼Otherwise, transaction requesting read/write is
+restarted andgiven anewtimestamp .
+◼Also timestamps fordataitems :
+❑read-timestamp -timestamp of last 
+transaction to read item.
+❑write -timestamp -timestamp of last 
+transaction to write item.
+
+The End Of Lecture 5
+Thank You
+

@@ -1,0 +1,528 @@
+UCCD2203 Database Systems
+Lecture 4
+By 
+Mr. Cheang Kah Wai, Alvin
+(Department of Information Systems, FICT)
+Lecture 4 Topic: Database Design 
+Methodology -Part 2
+◼Physical Database Design
+◼Advance Normalization 
+◼De-Normalization
+2
+PHYSICAL DATABASE DESIGN
+3
+Comparison of Logical and Physical 
+Database Design
+◼Sources of information for physical design process 
+includes logical data model and documentation that 
+describes model. 
+◼Logical database design is concerned with the 
+what ,
+◼Physical database design is concerned with the 
+how. 
+4
+
+Design Representation of Derived Data
+Objective: To decide how to represent any derived 
+data present in the global logical data model in the 
+target DBMS.
+◼Examine logical datamodel anddatadictionary, and
+produce listofallderived attributes .
+◼Derived attribute can bestored indatabase or
+calculated every time itisneeded .
+5
+
+PropertyforRent relation and Staff relation 
+with derived attribute noOfProperties
+6
+
+Design general Constraints
+Objective: To design the general constraints 
+for the target DBMS.
+◼Some DBMS provide more facilities than others for 
+defining general constraints. Example:
+CONSTRAINT StaffNotHandlingTooMuch
+CHECK (NOT EXISTS (SELECT staffNo
+FROM PropertyForRent
+GROUP BY staffNo
+HAVING COUNT(*) > 100))
+7
+
+Design File Organization and Indexes
+◼Objective: To determine optimal file organizations to 
+store the base relations and the indexes that are required 
+to achieve acceptable performance; that is, the way in 
+which relations and tuples will be held on secondary 
+storage.
+◼The activities in Step 4:
+❑Step 4.1  Analyze transactions
+❑Step 4.2  Choose file organizations
+❑Step 4.3  Choose indexes
+❑Step 4.4  Estimate disk space requirements
+8
+
+Analyze Transactions
+◼Objective: To understand the functionality of the 
+transactions that will run on the database and to 
+analyze the important transactions.
+◼Attempt toidentify performance criteria, such as:
+❑transactions that runfrequently andwillhave asignificant
+impact onperformance ;
+❑transactions thatarecritical tothebusiness ;
+❑times during theday/week when there willbeahigh demand
+made onthedatabase (called thepeak load).
+9
+
+Cross -referencing transactions and relations
+10
+
+Choose File Organizations
+◼Objective: To determine an efficient file 
+organization for each base relation.
+◼File organizations include 
+❑Heap, 
+❑Hash, 
+❑Indexed Sequential Access Method (ISAM), 
+❑B+-Tree, and 
+❑Clusters.
+11
+
+Choose Indexes
+◼Objective: To determine whether adding indexes will 
+improve the performance of the system.
+◼One approach istokeep tuples unordered andcreate
+asmany secondary indexes asnecessary .
+12
+Note: Indexes are special lookup tables that the database search 
+engine can use to speed up data retrieval . 
+Simply put, an index is a pointer to data in a table. An index in a 
+database is very similar to an index in the back of  a book.
+Sample Relation Diagram
+13
+
+Sample Relations
+14
+
+Combining 1:1 relationships 
+15
+
+Duplicating non -key attributes in 1:* relationships to 
+reduce joins
+16
+
+Duplicating non -key attributes in 1:* relationships: 
+Lookup Table
+17
+
+Duplicating non -key attributes in 1:* relationships: 
+Lookup Table
+18
+
+Duplicating FK attributes in 1:* relationship to 
+reduce joins 
+19
+
+Duplicating attributes in *:* relationships to reduce 
+joins 
+20
+Duplicating the street attribute from the 
+PropertyForRent relation in the Viewing relation
+Branch incorporating repeating group: (a) revised 
+relation diagram, (b) revised relationIntroducing repeating groups 
+21
+
+Partitioning relations
+◼Rather than combining relations together, 
+alternative approach is to decompose 
+them into a number of smaller and more 
+manageable partitions .
+◼Two main types of partitioning: 
+horizontal and vertical.
+22
+
+Partitioning relations
+23
+
+Monitor and tune the operational system
+◼Objective: To monitor the operational system 
+and improve the performance of the system to 
+correct inappropriate design decision or reflect 
+changing requirements.
+◼Number of factors that used to measure 
+efficiency:
+❑Transaction throughput, 
+❑Response time, 
+❑Disk storage.
+24
+
+Monitor & Tune Operational System
+◼Number of factors may be used to measure 
+efficiency:
+-Transaction throughput: number of 
+transactions processed in given time interval.
+-Response time: elapsed time for 
+completion of a single transaction. 
+-Disk storage: amount of disk space 
+required to store database files. 
+25
+
+ADVANCE NORMALIZATION 
+AND DE -NORMALIZATION
+26
+Data redundancy and Update Anomalies
+◼A relation should contains minimal data redundancy and 
+allows users to insert, delete, and update rows without 
+causing data inconsistencies
+◼The following anomalies to be avoided:
+◼Insertion Anomaly –adding new rows forces user to 
+create duplicate data
+◼Update or Modification Anomaly –changing data in 
+a row forces changes to other rows because of 
+duplication
+◼Deletion Anomaly –deleting rows may cause a loss 
+of data that would be needed for other future rows
+27
+Insertion Anomaly 
+INSERT the same record again in another relation
+28
+Insertion Anomaly –adding new rows forces user to create 
+duplicate data
+Update or Modification Anomaly 
+29
+Update or Modification Anomaly –changing data in a 
+row forces changes to other rows because of duplication
+
+Deletion Anomaly 
+30
+Deletion Anomaly –deleting rows may cause a loss of data that 
+would be needed for other future rows
+
+INVOICE Data (Pine Valley Furniture Company)
+31
+
+Refer toprevious figure (INVOICE Data (Pine Valley Furniture
+Company) ):
+◼Insertion –ifnew product isordered forOrder 1007 ofexisting
+customer, customer datamust bere-entered, causing duplication .
+◼Deletion –ifwedelete theDining Table from Order 1006 ,we
+loseinformation concerning thisitem's finish andprice .
+◼Modification –changing theprice ofproduct ID4requires
+update inseveral records .
+Why dothese anomalies exist?
+◼Because there aremultiple themes (entity types )into one
+relation .This results induplication, and anunnecessary
+dependency between theentities .Anomalies in this Table
+32
+
+◼Normalization :Atechnique forproducing asetofrelations
+with desirable properties .
+◼Primarily aprocess tovalidate andimprove alogical design so
+that itsatisfies certain constraints that avoid unnecessary
+duplication ofdata.
+◼The process ofdecomposing relations with anomalies to
+produce smaller, well-structured relations .
+◼Anomalies canberemoved bysplitting therelation intotwoor
+more relations ;each with adifferent, single theme .
+◼However, breaking uparelation may create referential integrity
+constraints .
+◼Normalization works through classes ofrelations called normal
+forms .Data Normalization
+33
+
+Functional Dependency :Thevalue ofoneattribute (thedeterminant )
+determines thevalue ofanother attribute .
+◼IfAandBareattributes ofrelation R,Bisfunctionally dependent
+onA(denoted A→B),ifeach value ofAinRisassociated with
+exactly onevalue ofBinR.
+Determinant :Refers totheattribute, orgroup ofattributes, onthe
+left-hand sideofthearrow ofafunctional dependency .
+Candidate Key:Aunique identifier .One ofthecandidate keys will
+become theprimary key.
+◼E.g.perhaps there isboth credit card number andSSN (social
+security number )inatable, inthiscaseboth arecandidate keys.
+◼Each non-keyfield isfunctionally dependent onevery candidate
+key.Functional Dependencies and Keys
+34
+
+Fullfunctional dependency :
+Ifattribute Bisfunctionally dependent onacomposite keyAbutnot
+onanysubset ofthatcomposite key,theattribute Bisfully functionally
+dependent onA.
+E.g.Afunctional dependency A→Bisafullfunctional dependency if
+removal ofanyattribute from Aresults inthedependency nolonger
+exists .
+Partial Dependency :Afunctional dependency A→B isapartially
+dependency ifthere issome attribute thatcanberemoved from Aand
+yetthedependency stillholds .
+Transitive dependency :Acondition where A,B,andCareattributes of
+arelation such that ifA→Band B→C,then Cistransitively
+dependent onAviaB(provided thatAisnotfunctionally dependent
+onBorC).Functional Dependencies and Keys (Cont.)
+35
+
+A Functional Dependency Diagram
+36
+A --> B
+(a) staffNo functionally determines position ( staffNo → position);
+(b) position does not functionally determine staffNo (position x→ staffNo ).A Functional Dependency Diagram
+37
+
+Process of  Normalization
+38
+
+Unnormalized Form (UNF) :Atable that contains one ormore
+repeating groups .
+Webegin theprocess ofnormalization byfirst transferring thedata from
+thesource (forexample, astandard data entry form )intotable format with
+rows andcolumns .
+Inthisformat, thetable isinUnnormalized Form andisreferred toasan
+unnormalized table.
+Totransform theunnormalized table toFirst Normal Form weidentify
+andremove repeating groups within thetable.
+There aretwo common approaches toremovin grepeating groups from
+unnormalized tables :
+◼Byentering appropriate data intheempty columns ofrows containing
+therepeating data.
+◼Byplacing therepeating data,along with acopy oftheoriginal key
+attribute( s),inaseparate relation .Unnormalized Form (UNF)
+39
+
+Branch table is not in 1NF
+40
+
+First Normal Form (1NF):Arelation inwhich theintersection of
+each rowandcolumn contains oneandonly onevalue .
+◼Nomultivalued attributes ,norepeating group ,every attribute value
+isatomic .
+◼Allrelations arein1stNormal Form .
+Fig.Aisnotin1stNormal Form (Repeating group )→itisnota
+relation .
+Fig.Bisin1stNormal form .First Normal Form (1NF)
+41
+
+Fig.A:Table with multivalued attributes, notin1NF
+INVOICE Data (Pine Valley Furniture Company )
+Note: this is NOT a relation.
+42
+
+Fig.B:Table with nomultivalued attributes andunique rows, isin1NF
+INVOICE Data (Pine Valley Furniture Company)
+Note: this is relation in 1NF, but not a well -structured one
+43
+
+Functional Dependencies, in1NFbutNot in2NF
+INVOICE Data (Pine Valley Furniture Company)
+Therefore, NOT in 2NFOrder_ID ,Product_ID → Order_Date ,Customer_ID ,Customer_Name ,
+Customer_Address , Product_Description , Product_Finish , Unit_Price ,
+Order_Quantity
+44
+
+Second Normal Form (2NF):Arelation thatisin
+First Normal Form and every non-primary -key
+attribute isfully functionally dependent onthe
+primary key.
+◼Every non-keyattribute must bedefined bythe
+entire key,notbyonly partofthekey.
+◼Nopartial functional dependencies .Second Normal Form (2NF)
+45
+
+Functional Dependencies, 2NFbutnotin3NF
+INVOICE Data (Pine Valley Furniture Company )
+Order_ID ➔Order_Date , Customer_ID , Customer_Name , Customer_Address
+(Partial Dependencies)
+Product_ID ➔Product_Description , Product_Finish , Unit_Price
+(Partial Dependencies)
+Order_ID , Product_ID ➔Order_Quantity
+(Full Dependencies)Transitive Dependencies still exist
+46
+
+Third Normal Form (3NF):Arelation thatisinFirst andSecond
+Normal Form and inwhich nonon-primary -key attribute is
+transitively dependent ontheprimary key.
+◼2NFandnotransitive dependencies (functional dependencies on
+non-primary -keyattributes )
+❑Note :thisiscalled transitive, because theprimary keyisa
+determinant for another attribute, which inturn isa
+determinant forathird.
+❑Solution :non-keydeterminant with transitive dependencies go
+intoanewtable;non-keydeterminant becomes primary keyin
+thenewtable andstays asforeign keyintheoldtable.Third Normal Form (3NF)
+47
+
+Functional Dependencies in 3NF
+INVOICE Data (Pine Valley Furniture Company)
+Order_ID ➔Order_Date , Customer_ID * 
+(Partial Dependencies)
+Customer_ID ➔Customer_Name , Customer_Address
+(Transitive Dependencies)Product_ID ➔Product_Description , Product_Finish , Unit_Price
+(Partial Dependencies)
+Order_ID , Product_ID ➔Order_Quantity
+(Full Dependencies)
+Transitive dependencies are removed
+48
+
+◼Arelation isinBCNF ifevery determinant isacandidate key.
+◼Forarelation with only onecandidate key,3NFandBCNF are
+equivalent .
+◼Violation ofBCNF israre,mayoccur inarelation thatcontains
+two(ormore )composite candidate keys andwhich overlap ,that
+isshare atleast oneattribute incommon .
+◼Non primary keyattribute determines part oftheprimary key
+attribute .
+Converting toBCNF :
+◼Step 1:Make thedeterminant that isnotacandidate keyto
+become acomponent ofthePrimary Keyoftherevised table.
+◼Step 2:Decomposed the relation toeliminate the partial
+dependency .Boyce -Codd Normal Form (BCNF)
+49
+
+Student_Advisor relation in3NF
+•Agiven student may have more than onemajor, foreach
+major astudent hasexactly oneadvisor andoneGPA .
+•Amajor mayhave several faculty members asadvisers .
+•Each advisor advises inexactly onemajor .
+50
+
+Converting from 3NFtoBCNF
+SID, Major→GPA, Advisor
+Advisor →Major
+SID, Advisor→GPA,
+Advisor →Major
+51
+
+Tables inBCNF
+52
+Arelation isinBCNF ifevery determinant isacandidate key.
+InBCNF :
+SID, Advisor→GPA,
+Advisor→Major
+Anentity type isin4NF ifitisin3NF/BCNF and there areno
+multivalued dependencies between itsattribute types .
+Anyentity type in3NFistransformed to4NF:
+◼Detect anymultivalued dependencies .
+◼Decompose entity type.
+Multi -valued Dependency (MVD ):
+Represent adependency between attributes (eg.A,B,C)inarelation, such
+that foreach value ofAthere isasetofvalues forBandasetforC.
+However, thesetofvalues forBandCareindependent ofeach other .
+❑A-->>B
+❑A-->>CFourth Normal Form (4NF)
+53
+
+Multivalued Dependencies
+•Each course hasawell-defined setofinstructor (management has3
+instructors)
+•Each course hasawell-defined setoftextbooks that areused
+(Finance has2textbooks)
+•The textbooks thatareused foragiven course areindependent of
+theinstructor ofthecourse (the same two textbooks areused for
+management regardless ofwhich thethree instructors isteaching
+mgmt )
+54
+
+Converting from BCNF to4thNormal Form
+55
+An entity type is in 4NF if it is 
+in 3NF/BCNF and there are 
+no multivalued dependencies 
+between its attribute types.Relation R
+Relation R1 Relation R2
+◼Assume that Project Budget canbedetermined byProject
+Manager .
+❑Itwillbe1to1relationship inBCNF .
+◼The Project_Detail base relation hasthedependency tothe
+following attributes :
+Project_Detail (Project_Code , Project_Title , Project_Manager , 
+Project_Budget , Employee_No , Employee_Name , 
+Department_No , Department_Name , Hourly_Rate )Normalization Example ( Project_Detail ) -
+Unnormalized Form (UNF)
+56
+
+Project_Detail First Normalized Form (1NF)
+57
+
+Unnormalized Form (UNF) :Atable that contains one ormore repeating
+groups .
+◼Project_Detail (Project_Code ,Project_Title ,Project_Manager ,Project_Budget ,
+Employee_No ,Employee_Name ,Department_No ,Department_Name ,
+Hourly_Rate )
+First Normal Form (1NF):Atable without therepeating groups .
+Determine thekeys touniquely identify each row.
+◼Project_Detail (Project_Code ,Project_Title ,Project_Manager ,Project_Budget ,
+Employee_No ,Employee_Name ,Department_No ,Department_Name ,
+Hourly_Rate )Normalization Example ( Project_Detail )
+58
+
+Second Normal Form (2NF):
+◼Project (Project_code , Project_Title , Project_Manager , Project_Budget ) 
+◼Project_Detail (Project_Code *, Employee_No *, Hourly_Rate ) 
+◼Employee (Employee_No , Employee_Name , Department_No , 
+Department_Name ) 
+Third Normal Form (3NF):
+◼Project (Project_code , Project_Title , Project_Manager , Project_Budget ) 
+◼Project_Detail (Project_Code *, Employee_No *, Hourly_Rate ) 
+◼Employee (Employee_No , Employee_Name , Department_No *)
+◼Department (Department_No , Department_Name ) Normalization Example ( Project_Detail )
+59
+
+Boyce -Codd Normal Form ( BCNF ):
+◼Assume that Project Budget can be determined by Project Manager: 
+Every determinant is a candidate key.
+❑Project (Project_code , Project_Title , Project_Manager * )
+❑Budget (Project_Manager , Project_Budget ) 
+❑Project_Detail (Project_Code , Employee_No , Hourly_Rate ) 
+❑Employee (Employee_No , Employee_Name , Department_No *) 
+❑Department (Department_No , Department_Name )Normalization Example ( Project_Detail )
+-Boyce -Codd Normal Form (BCNF)
+60
+
+◼Full Dependencies :
+Project_Code ,Employee_No →Project_Title ,Project_Manager ,
+Project_Budget , Employee_Name , Department_No ,
+Department_Name , Hourly_Rate
+◼Partial Dependencies :
+Project_Code ,→Project_Title ,Project_Manager ,Project_Budget
+Employee_No → Employee_Name , Department_No ,
+Department_Name
+◼Transitive Dependencies :
+Department_No →,Department_NameNormalization Example ( Project_Detail )
+-Dependencies
+61
+
+When anormalized design isunnatural, awkward, orresults in
+unacceptable performance, ade-normalized design ispreferred .
+Example :
+◼Normalized relation :
+❑CUSTOMER (CustNumber ,CustName ,Zip)
+❑CODES (Zip,City, State)
+◼De-Normalized relations :
+❑CUSTOMER (CustNumber ,CustName ,City, State, Zip)De-Normalized Designs
+62
+
+Advantages -improve performance by:
+◼Pre-computing derived data.
+◼Minimizing theneed forjoins.
+◼Reducing thenumber offoreign keys inrelations .
+◼Reducing thenumber ofindexes (thereby saving storage space) .
+◼Reducing thenumber ofrelations .
+Disadvantages :
+◼May speed upretrievals butcanslow down updates .
+◼Canincrease thesizeofrelations .
+◼May simplify implementation insome cases butmay make it
+more complex inothers .
+◼Sacrifices flexibility .Advantages and Disadvantages of  De -Normalization
+63
+
+Possible ways:
+◼Reduce joins.
+◼Introducing repeating groups .
+◼Combining 1:1relationships .
+◼Merging lookup tables with base relation .
+◼Creating extract tables .
+◼Duplicating foreign key attributes in1:*
+relationships .Methods of  De -normalization
+64
+
+The End Of Lecture 4
+Thank You
+65
